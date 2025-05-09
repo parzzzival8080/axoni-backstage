@@ -34,9 +34,6 @@ export function DataForm({ coin }: { coin: Coin }) {
       name: coin.name || "",
       base_coin: coin.base_coin || "",
       symbol: coin.symbol || "",
-      withdrawal_min_limit: coin.withdrawal_min_limit || "",
-      withdrawal_fee: coin.withdrawal_fee || "",
-      image_path: coin.image_path || "",
     },
   });
 

@@ -34,7 +34,6 @@ export type Client = {
   code: string;
   code_type: string;
   status: string;
-  status: "pending" | "processing" | "success" | "failed" | "decline";
 };
 
 export const columns: ColumnDef<Client>[] = [

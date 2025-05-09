@@ -1,15 +1,15 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Client, columns } from "./columns";
+import { Trend, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { DataForm } from "./form";
 
-const getData = async (): Promise<Client[]> => {
+const getData = async (): Promise<Trend[]> => {
   try {
     const response = await fetch('https://apiv2.bhtokens.com/api/v1/trends?apikey=A20RqFwVktRxxRqrKBtmi6ud'); // Replace with your real API URL
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
-    const data: Client[] = await response.json();
+    const data: Trend[] = await response.json();
     console.log(data);
     return data;
   } catch (error) {

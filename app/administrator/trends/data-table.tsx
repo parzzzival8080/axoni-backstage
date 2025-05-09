@@ -178,7 +178,6 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </div>
-     <TrendPair open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 }

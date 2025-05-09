@@ -92,7 +92,6 @@ export const columns: ColumnDef<Client>[] = [
               </DropdownMenuItem>
               <DropdownMenuSeparator /> */}
               <DropdownMenuItem
-                variant="outline"
                 onClick={() =>
                   toast("Approved", {
                     description: "Client Approved for KYC",
@@ -102,7 +101,6 @@ export const columns: ColumnDef<Client>[] = [
                 Approve
               </DropdownMenuItem>
               <DropdownMenuItem
-                variant="outline"
                 onClick={() =>
                   toast("Successfully Saved", {
                     description: "Client Decline for KYC",

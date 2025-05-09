@@ -131,13 +131,11 @@ export const columns: ColumnDef<Client>[] = [
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  variant="outline"
                   onClick={() => approveStatus(client.id)}
                 >
                   Approve
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  variant="outline"
                   onClick={() => declineStatus(client.id)}
                 >
                   Decline

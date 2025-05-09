@@ -190,7 +190,8 @@ export function DataTable<TData, TValue>({
         onOpenChange={setDialogOpen}
         pair={{
           id: "",
-          base_pair: "",
+          coin_id: "",
+          pair_id: "",
           is_tradable: "",
           is_withdrawable: "",
           is_future: "",

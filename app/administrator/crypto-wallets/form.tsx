@@ -24,9 +24,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(8).max(16),
-  email: z.string().min(10).max(20),
+  wallet_type: z.string().min(2).max(50),
+  address: z.string().min(8).max(16),
 });
 
 export function DataForm() {
@@ -80,7 +79,7 @@ export function DataForm() {
               <FormItem>
                 <FormLabel>Address</FormLabel>
                 <FormControl>
-                  <Input value="0.5" placeholder="" {...field} />
+                  <Input  placeholder="" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

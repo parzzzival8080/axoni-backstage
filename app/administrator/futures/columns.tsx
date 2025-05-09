@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 export type Client = {
   id: string;
@@ -46,10 +47,8 @@ export type Client = {
   accumulation: string;
   total_recharge: string;
   return_percentage: string;
-  close_approval: string;
   amount: string;
   status: string;
-  status: "pending" | "processing" | "success" | "failed" | "decline";
 };
 
 export const columns: ColumnDef<Client>[] = [
@@ -166,13 +165,11 @@ export const columns: ColumnDef<Client>[] = [
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  variant="outline"
                   onClick={() => approveStatus(client.id)}
                 >
                   Approve
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  variant="outline"
                   onClick={() => declineStatus(client.id)}
                 >
                   Decline

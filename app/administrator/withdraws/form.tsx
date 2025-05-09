@@ -23,9 +23,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(8).max(16),
-  email: z.string().min(10).max(20),
+  coin: z.string().min(2).max(50),
+  txid: z.string().min(8).max(16),
+  network: z.string().min(1).max(20),
+  amount: z.string().min(1).max(20),
+
 });
 
 export function DataForm() {

@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 const formSchema = z.object({
   id: z.string().min(1).max(50),
   coin_id: z.string().min(1).max(50),
+  pair_id: z.string().min(1).max(50),
   base_pair: z.string().min(1).max(50),
   is_tradable: z.string().min(1).max(50),
   is_withdrawable: z.string().min(1).max(50),
@@ -39,11 +40,12 @@ const formSchema = z.object({
   buy_limit: z.string().min(1).max(50),
   sell_limit: z.string().min(1).max(50),
   imagePath: z.string().min(1).max(50),
+  pair_type: z.string().min(1).max(50),
 });
 
 export function DataForm({ pair }: { pair: Pair }) {
   // 1. Define your form.
-  const [coins, setCoins] = useState<{ id: string; label: string }[]>([]);
+  const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
 
   useEffect(() => {
     axios
@@ -67,6 +69,7 @@ export function DataForm({ pair }: { pair: Pair }) {
       buy_limit: pair.buy_limit || "",
       sell_limit: pair.sell_limit || "",
       imagePath: pair.imagePath || "",
+      pair_type: "",
     },
   });
 
@@ -246,7 +249,6 @@ export function DataForm({ pair }: { pair: Pair }) {
                 <FormLabel>Future Coin</FormLabel>
                 <FormControl>
                   <Switch
-                    checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>

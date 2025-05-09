@@ -15,16 +15,15 @@ import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { AddWallet } from "./add-wallet";
 
-export type Coin = {
+export type Wallet = {
   id: string;
   wallet_type: string;
   address: string;
   status: string;
   assigned_to: string;
-  status: "AVAILABLE | ASSIGNED";
 };
 
-export const columns: ColumnDef<Coin>[] = [
+export const columns: ColumnDef<Wallet>[] = [
   {
     accessorKey: "imagePath",
     header: "Icon",

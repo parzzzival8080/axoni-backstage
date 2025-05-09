@@ -37,9 +37,9 @@ const formSchema = z.object({
 
 export function DataForm() {
   // 1. Define your form.
-  const [users, setUsers] = useState<{ id: string; label: string }[]>([]);
-  const [coins, setCoins] = useState<{ id: string; label: string }[]>([]);
-  const [networks, setNetworks] = useState<{ id: string; label: string }[]>([]);
+  const [users, setUsers] = useState<{ user_id: string; uid: string }[]>([]);
+  const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
+  const [networks, setNetworks] = useState<{ network_id: string; name: string }[]>([]);
 
   useEffect(() => {
     axios
