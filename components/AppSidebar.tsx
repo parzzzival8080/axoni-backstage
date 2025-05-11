@@ -11,6 +11,7 @@ import {
   CircleDollarSign,
   Coins,
   CreditCard,
+  Fuel,
   HandCoins,
   Home,
   Inbox,
@@ -21,6 +22,7 @@ import {
   Settings,
   Settings2,
   User2,
+  UserMinus,
   Users,
   Wallet,
 } from "lucide-react";
@@ -80,6 +82,16 @@ const clients = [
     title: "Credits",
     url: "/administrator/credits",
     icon: CreditCard,
+  },
+   {
+    title: "Deductions",
+    url: "/administrator/deductions",
+    icon: UserMinus,
+  },
+   {
+    title: "Gas",
+    url: "/administrator/gas",
+    icon: Fuel,
   },
 
   {
