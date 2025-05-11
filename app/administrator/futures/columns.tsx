@@ -117,41 +117,78 @@ export const columns: ColumnDef<Client>[] = [
     cell: ({ row }) => {
       const client = row.original;
 
-      async function approveStatus(id: string) {
+      async function approveOpenPositionStatus(id: string) {
         try {
           const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transaction_id: id, status: "open_pos" }
+            "https://apiv2.bhtokens.com/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            { future_id: id, status: "open_position" }
           );
 
-          toast("Deposit Approved", {
-            description: `Deposit ${id} successfully approved!`,
+          toast("Client Open Position Approved", {
+            description: `Open position ${id} successfully approved!`,
           });
         } catch (error) {
           toast("Error", {
-            description: "Failed to approve deposit.",
+            description: "Failed to Approve open position.",
           });
-          console.error("Approval error:", error);
+          console.error("open position error:", error);
         }
       }
 
-      async function declineStatus(id: string) {
+      async function declineOpenPositionStatus(id: string) {
         try {
           const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transaction_id: id, status: "approved" }
+            "https://apiv2.bhtokens.com/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            { future_id: id, status: "declined" }
           );
 
-          toast("Deposit Approved", {
-            description: `Deposit ${id} successfully declined!`,
+          toast("Client Open Position Declined", {
+            description: `Open position ${id} successfully declined!`,
           });
         } catch (error) {
           toast("Error", {
-            description: "Failed to decline deposit.",
+            description: "Failed to decline open position.",
           });
-          console.error("Approval error:", error);
+          console.error("open position error:", error);
         }
       }
+
+      async function closePosition(id: string) {
+        try {
+          const res = await axios.put(
+            "https://apiv2.bhtokens.com/api/v1/close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            { future_id: id, status: "decline" }
+          );
+
+          toast("Client Open Position Declined", {
+            description: `Open position ${id} successfully declined!`,
+          });
+        } catch (error) {
+          toast("Error", {
+            description: "Failed to decline open position.",
+          });
+          console.error("open position error:", error);
+        }
+      }
+
+      async function allowClosePosition(id: string) {
+        try {
+          const res = await axios.put(
+            "https://apiv2.bhtokens.com/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            { future_id: id, status: "declined" }
+          );
+
+          toast("Client Open Position Declined", {
+            description: `Open position ${id} successfully declined!`,
+          });
+        } catch (error) {
+          toast("Error", {
+            description: "Failed to decline open position.",
+          });
+          console.error("open position error:", error);
+        }
+      }
+
       return (
         <div>
           {client.status === "pending" && (
@@ -165,14 +202,37 @@ export const columns: ColumnDef<Client>[] = [
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => approveStatus(client.id)}
+                  onClick={() => approveOpenPositionStatus(client.future_no)}
                 >
-                  Approve
+                  Approve Open Position
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => declineStatus(client.id)}
+                  onClick={() => declineOpenPositionStatus(client.future_no)}
                 >
-                  Decline
+                  Decline Open Position
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          {client.status === "open_position" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() => closePosition(client.future_no)}
+                >
+                  Close Position
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => allowClosePosition(client.future_no)}
+                >
+                  Allow Close Position
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
