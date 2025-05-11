@@ -13,7 +13,6 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { TrendPair } from "./trend-pair";
-import { SetPrice } from "./set-price";
 
 // Import AlertDialog from ShadCN
 import {
@@ -140,14 +139,6 @@ export const columns: ColumnDef<Trend>[] = [
               >
                 Trend
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  setDropdownOpen(false);
-                  setDialogOpen(true);
-                }}
-              >
-                Set Price
-              </DropdownMenuItem>
 
               {/* Toggle Trend Status */}
               <DropdownMenuItem onClick={toggleTrendStatus}>
@@ -167,11 +158,6 @@ export const columns: ColumnDef<Trend>[] = [
 
           {/* Trend Pair Dialog */}
           <TrendPair
-            open={dialogOpen}
-            onOpenChange={setDialogOpen}
-            trend={trend}
-          />
-          <SetPrice
             open={dialogOpen}
             onOpenChange={setDialogOpen}
             trend={trend}
