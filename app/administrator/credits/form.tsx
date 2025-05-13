@@ -3,9 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -24,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   uid: z.string().min(1).max(50),
@@ -31,24 +31,25 @@ const formSchema = z.object({
   coin_id: z.string().min(2).max(50),
   initial_amount: z.string().min(1).max(50),
   network_id: z.string().min(1).max(50),
-  transaction_type: z.string().min(1).max(50),
   fee: z.string().min(1).max(50),
+  transaction_type: z.string().min(1).max(50)
 });
 
-export function DataForm({ onSuccess }: { onSuccess: () => void }) {
+type DataFormProps = {
+  onSuccess: () => void;
+};
+
+export function DataForm({ onSuccess }: DataFormProps) {
   const [users, setUsers] = useState<{ user_id: string; uid: string }[]>([]);
   const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
   const [networks, setNetworks] = useState<{ network_id: string; name: string }[]>([]);
 
   useEffect(() => {
-    axios
-      .get("https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+    axios.get("https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setUsers(res.data));
-    axios
-      .get("https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+    axios.get("https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setCoins(res.data));
-    axios
-      .get("https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+    axios.get("https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setNetworks(res.data));
   }, []);
 
@@ -61,18 +62,19 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
       network_id: "",
       initial_amount: "",
       fee: "0",
-      transaction_type: "credit",
+      transaction_type: "deposit",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     axios
       .post("https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
       .then((res) => {
-        toast("Credit Saved", {
-          description: "Credit successfully saved!",
+        toast("Deposit Saved", {
+          description: "Deposit successfully saved!",
         });
-        onSuccess?.(); // close dialog and refetch
+        form.reset();      // ✅ Clear the form
+        onSuccess();       // ✅ Trigger refetch and dialog close
       })
       .catch((err) => {
         toast("Error", {
@@ -80,7 +82,7 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
         });
         console.error("Save failed:", err);
       });
-  }
+  };
 
   return (
     <Form {...form}>
@@ -94,9 +96,11 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
                 <FormLabel>Client</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Client" />
-                    </SelectTrigger>
+                    <FormControl>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Client" />
+                      </SelectTrigger>
+                    </FormControl>
                     <SelectContent>
                       {users.map((user) => (
                         <SelectItem key={user.user_id} value={user.uid}>
@@ -119,9 +123,11 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
                 <FormLabel>Coin</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Coins" />
-                    </SelectTrigger>
+                    <FormControl>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Coins" />
+                      </SelectTrigger>
+                    </FormControl>
                     <SelectContent>
                       {coins.map((coin) => (
                         <SelectItem key={coin.coin_id} value={coin.coin_id}>
@@ -143,7 +149,7 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
               <FormItem>
                 <FormLabel>TXID</FormLabel>
                 <FormControl>
-                  <Input placeholder="Transaction ID" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -158,12 +164,17 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
                 <FormLabel>Network</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Networks" />
-                    </SelectTrigger>
+                    <FormControl>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Networks" />
+                      </SelectTrigger>
+                    </FormControl>
                     <SelectContent>
                       {networks.map((network) => (
-                        <SelectItem key={network.network_id} value={network.network_id}>
+                        <SelectItem
+                          key={network.network_id}
+                          value={network.network_id}
+                        >
                           {network.name}
                         </SelectItem>
                       ))}
@@ -182,7 +193,7 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
               <FormItem>
                 <FormLabel>Amount</FormLabel>
                 <FormControl>
-                  <Input placeholder="0.00" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

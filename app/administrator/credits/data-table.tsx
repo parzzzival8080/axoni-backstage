@@ -33,7 +33,7 @@ import { Input } from "@/components/ui/input";
 
 import * as React from "react";
 import { Plus } from "lucide-react";
-import { AddCredit } from "./add-credit";
+import { AddDeposit } from "./add-credit";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -181,7 +181,7 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </div>
-     <AddCredit open={dialogOpen} onOpenChange={setDialogOpen} />
+     <AddDeposit open={dialogOpen} onOpenChange={setDialogOpen}  />
     </div>
   );
 }

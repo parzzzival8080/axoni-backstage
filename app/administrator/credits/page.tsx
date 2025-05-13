@@ -10,41 +10,42 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { DataTable } from "./data-table";
-import { getColumns, Client } from "./columns";
-import { AddCredit } from "./add-credit";
-import { Button } from "@/components/ui/button";
+import { getColumns, Client } from "./columns"; // 👈 use getColumns
+
+const getData = async (): Promise<Client[]> => {
+  try {
+    const response = await fetch(
+      "https://apiv2.bhtokens.com/api/v1/transaction-records?apikey=A20RqFwVktRxxRqrKBtmi6ud&transaction_type=deposit"
+    );
+    if (!response.ok) throw new Error("Failed to fetch data");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
+};
 
 export default function DemoPage() {
   const [data, setData] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
-    try {
-      const res = await fetch(
-        "https://apiv2.bhtokens.com/api/v1/transaction-records?apikey=A20RqFwVktRxxRqrKBtmi6ud&transaction_type=credit"
-      );
-      const result: Client[] = await res.json();
-      setData(result);
-    } catch (error) {
-      console.error("Failed to fetch credit data:", error);
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
+    const result = await getData();
+    setData(result);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const columns = getColumns(fetchData);
+  const columns = getColumns(fetchData); // 👈 pass refresh callback
 
   return (
-    <div className="">
+    <div>
       <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
-        Credits
+        Deposits
       </h2>
       <Breadcrumb className="m-3">
         <BreadcrumbList>
@@ -53,13 +54,10 @@ export default function DemoPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Credits</BreadcrumbPage>
+            <BreadcrumbPage>Deposits</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      <AddCredit open={open} onOpenChange={setOpen} refetch={fetchData} />
-
       <div className="mb-8 px-4 py-2 bg-secondary rounded-md">
         {loading ? <p>Loading...</p> : <DataTable columns={columns} data={data} />}
       </div>

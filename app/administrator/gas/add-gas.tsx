@@ -11,7 +11,7 @@ import { DataForm } from "./form";
 type DialogComponentProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  refetch: () => void;
+  refetch?: () => void;
 };
 
 export const AddGas = ({ open, onOpenChange, refetch }: DialogComponentProps) => {
@@ -25,7 +25,7 @@ export const AddGas = ({ open, onOpenChange, refetch }: DialogComponentProps) =>
           </DialogDescription>
         </DialogHeader>
         <DataForm onSuccess={() => {
-          refetch();
+          refetch?.();
           onOpenChange(false);
         }} />
       </DialogContent>

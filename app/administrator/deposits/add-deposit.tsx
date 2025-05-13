@@ -13,7 +13,7 @@ import { useTransition } from "react";
 type DialogComponentProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  refetch: () => void;
+  refetch?: () => void;
 };
 
 export const AddDeposit = ({ open, onOpenChange }: DialogComponentProps) => {
