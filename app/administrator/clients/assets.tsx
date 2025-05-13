@@ -14,7 +14,7 @@ import { Asset, columns } from "./asset-columns";
 interface EditClientProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  client: Client;
+  asset: Asset;
 }
 // ✅ API fetch function with uid parameter
 const getData = async (uid: string): Promise<Asset[]> => {
