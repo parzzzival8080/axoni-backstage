@@ -8,8 +8,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DataTable } from "./data-table";
-import { columns, Asset } from "./asset-columns"; // ✅ Make sure Asset is defined here
-import { Client } from "./columns"; // Still using Client for incoming props
+import { columns, Asset } from "./asset-columns";
+import { Client } from "./columns"; // Used only for props
 
 interface EditClientProps {
   open: boolean;
@@ -17,7 +17,7 @@ interface EditClientProps {
   client: Client;
 }
 
-// ✅ API fetch function with correct URL and type
+// ✅ API fetch function with UID and sorting
 const getData = async (uid: string): Promise<Asset[]> => {
   try {
     const response = await fetch(
@@ -26,8 +26,21 @@ const getData = async (uid: string): Promise<Asset[]> => {
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-    const data: Asset[] = await response.json();
-    return data;
+
+    const rawData: Asset[] = await response.json();
+
+    // ✅ Convert numeric fields from string to number and sort by spot balance
+    const parsed = rawData
+      .map((item) => ({
+        ...item,
+        spot: parseFloat(item.spot || "0"),
+        future: parseFloat(item.future || "0"),
+        funding: parseFloat(item.funding || "0"),
+        credit: parseFloat(item.credit || "0"),
+      }))
+      .sort((a, b) => b.spot - a.spot); // descending order by spot
+
+    return parsed;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
@@ -54,7 +67,7 @@ export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
         <DialogTitle>Client Assets</DialogTitle>
         <DialogDescription>
           {loading ? (
-            <p>Loading data...</p>
+            <p className="text-muted-foreground">Loading data...</p>
           ) : (
             <DataTable columns={columns} data={data} />
           )}
