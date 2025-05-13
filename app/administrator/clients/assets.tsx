@@ -29,16 +29,7 @@ const getData = async (uid: string): Promise<Asset[]> => {
 
     const rawData: Asset[] = await response.json();
 
-    // ✅ Convert numeric fields from string to number and sort by spot balance
-    const parsed = rawData
-      .map((item) => ({
-        ...item,
-        spot: parseFloat(item.spot || "0"),
-        future: parseFloat(item.future || "0"),
-        funding: parseFloat(item.funding || "0"),
-        credit: parseFloat(item.credit || "0"),
-      }))
-      .sort((a, b) => b.spot - a.spot); // descending order by spot
+    // ✅ Convert numeric fields from string to number and sort by spot balanc; // descending order by spot
 
     return parsed;
   } catch (error) {
