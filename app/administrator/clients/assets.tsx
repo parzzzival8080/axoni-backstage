@@ -11,6 +11,11 @@ import { DataTable } from "./data-table";
 import { columns } from "./asset-columns";
 import { Client } from "./columns";
 
+interface EditClientProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  client: Client;
+}
 // ✅ API fetch function with uid parameter
 const getData = async (uid: string): Promise<Client[]> => {
   try {
