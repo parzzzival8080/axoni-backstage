@@ -8,19 +8,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DataTable } from "./data-table";
-import { Asset, columns } from "./asset-columns";
+import { columns } from "./asset-columns";
+import { Client } from "./columns";
 
-
-interface EditClientProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  asset: Asset;
-}
 // ✅ API fetch function with uid parameter
 const getData = async (uid: string): Promise<Asset[]> => {
   try {
     const response = await fetch(
-      `https://apiv2.bhtokens.com/api/v1/user-assets/`+ uid +`?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+      `https://apiv2.bhtokens.com/api/v1/user-wallets/` +
+        { uid } +
+        `?apikey=A20RqFwVktRxxRqrKBtmi6ud&`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch data");
@@ -32,9 +29,6 @@ const getData = async (uid: string): Promise<Asset[]> => {
     return [];
   }
 };
-
-
-
 
 export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
   const [data, setData] = useState<Asset[]>([]);
@@ -51,8 +45,8 @@ export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
   }, [open, client.uid]);
 
   return (
-    <Dialog  open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[800px]">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
         <DialogTitle>Client Assets</DialogTitle>
         <DialogDescription>
           {loading ? (
