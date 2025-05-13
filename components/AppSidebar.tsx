@@ -25,6 +25,7 @@ import {
   UserMinus,
   Users,
   Wallet,
+  Wallet2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -64,6 +65,12 @@ const clients = [
   },
 
   {
+    title: "Assets",
+    url: "/administrator/assets",
+    icon: Wallet2,
+  },
+
+  {
     title: "KYC",
     url: "/administrator/kyc",
     icon: Lock,
@@ -83,12 +90,12 @@ const clients = [
     url: "/administrator/credits",
     icon: CreditCard,
   },
-   {
+  {
     title: "Deductions",
     url: "/administrator/deductions",
     icon: UserMinus,
   },
-   {
+  {
     title: "Gas",
     url: "/administrator/gas",
     icon: Fuel,

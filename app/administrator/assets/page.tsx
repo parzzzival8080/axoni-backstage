@@ -10,13 +10,10 @@ import { Client, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { DataForm } from "./form";
 
-
-
-
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
-      "https://apiv2.bhtokens.com/api/v1/user-details?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      "https://apiv2.bhtokens.com/api/v1/user-assets?apikey=A20RqFwVktRxxRqrKBtmi6ud"
     ); // Replace with your real API URL
     if (!response.ok) {
       throw new Error("Failed to fetch data");
@@ -36,7 +33,7 @@ export default async function DemoPage() {
   return (
     <div className="">
       <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-        Clients
+        Assets
       </h2>
       <Breadcrumb className="m-3">
         <BreadcrumbList>
@@ -45,7 +42,7 @@ export default async function DemoPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Clients</BreadcrumbPage>
+            <BreadcrumbPage>Assets</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

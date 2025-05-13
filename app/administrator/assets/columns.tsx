@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,16 +27,13 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 
 export type Client = {
-  id: string;
   uid: string;
-  coin: string;
-  transfer_from: string;
-  transfer_to: string;
-  amount: string;
-  status: string;
+  spot_wallet: string;
+  future_wallet: string;
+  funding_wallet: string;
+  credit: string;
 };
 
 export const columns: ColumnDef<Client>[] = [
@@ -44,24 +42,21 @@ export const columns: ColumnDef<Client>[] = [
     header: "UID",
   },
   {
-    accessorKey: "coin",
-    header: "Coin",
+    accessorKey: "spot_wallet",
+    header: "Spot",
   },
   {
-    accessorKey: "from",
-    header: "From",
+    accessorKey: "future_wallet",
+    header: "Future",
   },
   {
-    accessorKey: "to",
-    header: "To",
+    accessorKey: "funding_wallet",
+    header: "Funding",
   },
-   {
-    accessorKey: "amount",
-    header: "Amount",
-  },
+
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "credit",
+    header: "Credit",
   },
   {
     id: "actions",
@@ -71,12 +66,12 @@ export const columns: ColumnDef<Client>[] = [
       async function approveStatus(id: string) {
         try {
           const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transfer?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transfer_id: id, status: "approved" }
+            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            { transaction_id: id, status: "approved" }
           );
 
-          toast("Deposit Approved", {
-            description: `Deposit ${id} successfully approved!`,
+          toast("Withdraw Approved", {
+            description: `Withdraw ${id} successfully approved!`,
           });
         } catch (error) {
           toast("Error", {
@@ -89,16 +84,16 @@ export const columns: ColumnDef<Client>[] = [
       async function declineStatus(id: string) {
         try {
           const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transfer?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transfer_id: id, status: "approved" }
+            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            { transaction_id: id, status: "approved" }
           );
 
-          toast("Deposit Approved", {
-            description: `Deposit ${id} successfully declined!`,
+          toast("Withdraw Approved", {
+            description: `Withdraw ${id} successfully declined!`,
           });
         } catch (error) {
           toast("Error", {
-            description: "Failed to decline deposit.",
+            description: "Failed to decline withdraw.",
           });
           console.error("Approval error:", error);
         }
@@ -116,12 +111,12 @@ export const columns: ColumnDef<Client>[] = [
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => approveStatus(client.transfer_id)}
+                  onClick={() => approveStatus(client.id)}
                 >
                   Approve
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => declineStatus(client.transfer_id)}
+                  onClick={() => declineStatus(client.id)}
                 >
                   Decline
                 </DropdownMenuItem>
