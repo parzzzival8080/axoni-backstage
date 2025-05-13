@@ -28,7 +28,7 @@ const getData = async (uid: string): Promise<Asset[]> => {
 };
 
 
-export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
+export const Assets = ({ open, onOpenChange, client }) => {
   const [data, setData] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
 
