@@ -12,7 +12,7 @@ import { columns } from "./asset-columns";
 import { Client } from "./columns";
 
 // ✅ API fetch function with uid parameter
-const getData = async (uid: string): Promise<Asset[]> => {
+const getData = async (uid: string): Promise<Client[]> => {
   try {
     const response = await fetch(
       `https://apiv2.bhtokens.com/api/v1/user-wallets/` +
@@ -22,7 +22,7 @@ const getData = async (uid: string): Promise<Asset[]> => {
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-    const data: Asset[] = await response.json();
+    const data: Client[] = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -31,7 +31,7 @@ const getData = async (uid: string): Promise<Asset[]> => {
 };
 
 export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
-  const [data, setData] = useState<Asset[]>([]);
+  const [data, setData] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
