@@ -13,7 +13,7 @@ import { Asset, columns } from "./asset-columns";
 interface AssetsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  client: Client;
+  asset: Asset;
 }
 
 // ✅ API fetch function with uid parameter
