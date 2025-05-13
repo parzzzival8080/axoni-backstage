@@ -10,12 +10,12 @@ import {
 import { DataTable } from "./data-table";
 import { Asset, columns } from "./asset-columns";
 
-interface AssetsProps {
+
+interface EditClientProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  asset: Asset;
+  client: Client;
 }
-
 // ✅ API fetch function with uid parameter
 const getData = async (uid: string): Promise<Asset[]> => {
   try {
@@ -34,13 +34,15 @@ const getData = async (uid: string): Promise<Asset[]> => {
 };
 
 
-export const Assets = ({ open, onOpenChange, client }: AssetsProps) => {
+
+
+export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
   const [data, setData] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (open && client.uid) {
-      setLoading(true);
+      setLoading(true); // reset loading state
       getData(client.uid).then((fetchedData) => {
         setData(fetchedData);
         setLoading(false);
@@ -49,8 +51,8 @@ export const Assets = ({ open, onOpenChange, client }: AssetsProps) => {
   }, [open, client.uid]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[800px] max-w-[800px]">
+    <Dialog  open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[800px]">
         <DialogTitle>Client Assets</DialogTitle>
         <DialogDescription>
           {loading ? (
