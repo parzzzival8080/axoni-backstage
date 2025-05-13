@@ -32,14 +32,16 @@ const formSchema = z.object({
   initial_amount: z.string().min(1).max(50),
   network_id: z.string().min(1).max(50),
   fee: z.string().min(1).max(50),
-  transaction_type: z.string().min(1).max(50)
+  transaction_type: z.string().min(1).max(50),
 });
 
-export function DataForm() {
+export function DataForm({ onSuccess }: { onSuccess: () => void }) {
   // 1. Define your form.
   const [users, setUsers] = useState<{ user_id: string; uid: string }[]>([]);
   const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
-  const [networks, setNetworks] = useState<{ network_id: string; name: string }[]>([]);
+  const [networks, setNetworks] = useState<
+    { network_id: string; name: string }[]
+  >([]);
 
   useEffect(() => {
     axios
@@ -66,7 +68,7 @@ export function DataForm() {
       txid: "",
       network_id: "",
       initial_amount: "",
-      fee: '0',
+      fee: "0",
       transaction_type: "gas",
     },
   });
@@ -74,17 +76,16 @@ export function DataForm() {
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
-      .post("https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
+      .post(
+        "https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        values
+      )
       .then((res) => {
-        toast("Gas Saved", {
-          description: "Gas successfully saved!",
-        });
-        console.log("Saved:", res.data);
+        toast("Gas Saved", { description: "Gas successfully saved!" });
+        if (onSuccess) onSuccess(); // trigger refetch & close dialog
       })
       .catch((err) => {
-        toast("Error", {
-          description: "Something went wrong.",
-        });
+        toast("Error", { description: "Something went wrong." });
         console.error("Save failed:", err);
       });
   }

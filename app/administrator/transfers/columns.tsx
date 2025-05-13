@@ -1,35 +1,20 @@
 "use client";
 
 import { toast } from "sonner";
-import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { ArrowUpDown } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import axios from "axios";
 
 export type Client = {
-  id: string;
+  transfer_id: string;
   uid: string;
   coin: string;
   transfer_from: string;
@@ -38,102 +23,58 @@ export type Client = {
   status: string;
 };
 
-export const columns: ColumnDef<Client>[] = [
-  {
-    accessorKey: "id",
-    header: "Transfer ID",
-  },
-  {
-    accessorKey: "uid",
-    header: "UID",
-  },
-  {
-    accessorKey: "coin",
-    header: "Coin",
-  },
-  {
-    accessorKey: "from",
-    header: "From",
-  },
-  {
-    accessorKey: "to",
-    header: "To",
-  },
-   {
-    accessorKey: "amount",
-    header: "Amount",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
+// 👇 Accept a refetch callback
+export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
+  { accessorKey: "transfer_id", header: "Transfer ID" },
+  { accessorKey: "uid", header: "UID" },
+  { accessorKey: "coin", header: "Coin" },
+  { accessorKey: "from", header: "From" },
+  { accessorKey: "to", header: "To" },
+  { accessorKey: "amount", header: "Amount" },
+  { accessorKey: "status", header: "Status" },
   {
     id: "actions",
     cell: ({ row }) => {
       const client = row.original;
 
-      async function approveStatus(id: string) {
+      async function updateStatus(id: string, status: "approved" | "declined") {
         try {
-          const res = await axios.put(
+          await axios.put(
             "https://apiv2.bhtokens.com/api/v1/update-transfer?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transfer_id: id, status: "approved" }
+            { transfer_id: id, status }
           );
 
-          toast("Deposit Approved", {
-            description: `Deposit ${id} successfully approved!`,
+          toast(`Deposit ${status}`, {
+            description: `Deposit ${id} successfully ${status}.`,
           });
+
+          refetch(); // 👈 Refresh the table
         } catch (error) {
           toast("Error", {
-            description: "Failed to approve deposit.",
+            description: `Failed to ${status} deposit.`,
           });
-          console.error("Approval error:", error);
+          console.error(`${status} error:`, error);
         }
       }
 
-      async function declineStatus(id: string) {
-        try {
-          const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transfer?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transfer_id: id, status: "approved" }
-          );
-
-          toast("Deposit Approved", {
-            description: `Deposit ${id} successfully declined!`,
-          });
-        } catch (error) {
-          toast("Error", {
-            description: "Failed to decline deposit.",
-          });
-          console.error("Approval error:", error);
-        }
-      }
-      return (
-        <div>
-          {client.status === "pending" && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() => approveStatus(client.id)}
-                >
-                  Approve
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => declineStatus(client.id)}
-                >
-                  Decline
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-        </div>
-      );
+      return client.status === "pending" ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => updateStatus(client.transfer_id, "approved")}>
+              Approve
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => updateStatus(client.transfer_id, "declined")}>
+              Decline
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : null;
     },
   },
 ];

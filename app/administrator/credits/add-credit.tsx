@@ -1,20 +1,19 @@
-// DialogComponent.tsx
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { DataForm } from "./form";
 
 type DialogComponentProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  refetch: () => void;
 };
 
-export const AddCredit = ({ open, onOpenChange }: DialogComponentProps) => {
+export const AddCredit = ({ open, onOpenChange, refetch }: DialogComponentProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -24,7 +23,10 @@ export const AddCredit = ({ open, onOpenChange }: DialogComponentProps) => {
             Create credit for a client. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <DataForm />
+        <DataForm onSuccess={() => {
+          refetch();
+          onOpenChange(false);
+        }} />
       </DialogContent>
     </Dialog>
   );

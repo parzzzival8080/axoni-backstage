@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
 const formSchema = z.object({
   uid: z.string().min(1).max(50),
   txid: z.string().min(10).max(50),
@@ -35,29 +35,24 @@ const formSchema = z.object({
   transaction_type: z.string().min(1).max(50)
 });
 
-export function DataForm() {
-  // 1. Define your form.
+type DataFormProps = {
+  onSuccess: () => void;
+};
+
+export function DataForm({ onSuccess }: DataFormProps) {
   const [users, setUsers] = useState<{ user_id: string; uid: string }[]>([]);
   const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
   const [networks, setNetworks] = useState<{ network_id: string; name: string }[]>([]);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
-      )
+    axios.get("https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setUsers(res.data));
-    axios
-      .get(
-        "https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
-      )
+    axios.get("https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setCoins(res.data));
-    axios
-      .get(
-        "https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
-      )
+    axios.get("https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setNetworks(res.data));
   }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,20 +61,20 @@ export function DataForm() {
       txid: "",
       network_id: "",
       initial_amount: "",
-      fee: '0',
+      fee: "0",
       transaction_type: "deposit",
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     axios
       .post("https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
       .then((res) => {
         toast("Deposit Saved", {
           description: "Deposit successfully saved!",
         });
-        console.log("Saved:", res.data);
+        form.reset();      // ✅ Clear the form
+        onSuccess();       // ✅ Trigger refetch and dialog close
       })
       .catch((err) => {
         toast("Error", {
@@ -87,7 +82,8 @@ export function DataForm() {
         });
         console.error("Save failed:", err);
       });
-  }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -153,7 +149,7 @@ export function DataForm() {
               <FormItem>
                 <FormLabel>TXID</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -197,7 +193,7 @@ export function DataForm() {
               <FormItem>
                 <FormLabel>Amount</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
