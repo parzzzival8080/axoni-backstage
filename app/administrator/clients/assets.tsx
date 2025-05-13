@@ -8,26 +8,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DataTable } from "./data-table";
-import { columns } from "./asset-columns";
-import { Client } from "./columns";
+import { columns, Asset } from "./asset-columns"; // ✅ Make sure Asset is defined here
+import { Client } from "./columns"; // Still using Client for incoming props
 
 interface EditClientProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   client: Client;
 }
-// ✅ API fetch function with uid parameter
-const getData = async (uid: string): Promise<Client[]> => {
+
+// ✅ API fetch function with correct URL and type
+const getData = async (uid: string): Promise<Asset[]> => {
   try {
     const response = await fetch(
-      `https://apiv2.bhtokens.com/api/v1/user-wallets/` +
-        { uid } +
-        `?apikey=A20RqFwVktRxxRqrKBtmi6ud&`
+      `https://apiv2.bhtokens.com/api/v1/user-wallets/${uid}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-    const data: Client[] = await response.json();
+    const data: Asset[] = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -36,12 +35,12 @@ const getData = async (uid: string): Promise<Client[]> => {
 };
 
 export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
-  const [data, setData] = useState<Client[]>([]);
+  const [data, setData] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (open && client.uid) {
-      setLoading(true); // reset loading state
+      setLoading(true);
       getData(client.uid).then((fetchedData) => {
         setData(fetchedData);
         setLoading(false);
@@ -51,7 +50,7 @@ export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="max-w-[800px]">
         <DialogTitle>Client Assets</DialogTitle>
         <DialogDescription>
           {loading ? (
