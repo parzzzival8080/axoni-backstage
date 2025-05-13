@@ -1,11 +1,14 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DataForm } from "./form";
 import { Client } from "./columns";
+import { columns, Asset } from "./asset-columns";
 import { DataTable } from "./data-table";
 
 interface EditClientProps {
@@ -14,14 +17,46 @@ interface EditClientProps {
   client: Client;
 }
 
+// ✅ Basic fetchAssets using API response directly
+const fetchAssets = async (uid: string): Promise<Asset[]> => {
+  try {
+    const res = await fetch(
+      `https://apiv2.bhtokens.com/api/v1/user-assets/${uid}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+    );
+    if (!res.ok) throw new Error("Failed to fetch assets");
+    const data = await res.json();
+    console.log(data)
+    return data; // No mapping or parsing
+  } catch (error) {
+    console.error("Error fetching assets:", error);
+    return [];
+  }
+};
+
 export const Assets = ({ open, onOpenChange, client }: EditClientProps) => {
+  const [data, setData] = useState<Asset[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (open && client.uid) {
+      setLoading(true);
+      fetchAssets(client.uid).then((result) => {
+        setData(result);
+        setLoading(false);
+      });
+    }
+  }, [open, client.uid]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogTitle>Edit Client</DialogTitle>
+      <DialogContent className="max-w-[800px]">
+        <DialogTitle>Client Assets</DialogTitle>
         <DialogDescription>
-          Client Assets.
-          <DataTable columns={columns} data={data} />
+          {loading ? (
+            <p className="text-muted-foreground">Loading assets...</p>
+          ) : (
+            <DataTable columns={columns} data={data} />
+          )}
         </DialogDescription>
       </DialogContent>
     </Dialog>

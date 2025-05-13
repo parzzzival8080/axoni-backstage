@@ -67,9 +67,7 @@ function ClientActions({ client }: { client: Client }) {
           >
             Approve Client
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={openAssetDialog}>
-            Assets
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={openAssetDialog}>Assets</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -82,8 +80,7 @@ function ClientActions({ client }: { client: Client }) {
       <Assets
         open={assetsDialogOpen}
         onOpenChange={setAssetsDialogOpen}
-        client={client}
-        uid={selectedUid} // ✅ pass the UID
+        client={client} // ✅ already includes `uid`
       />
     </div>
   );

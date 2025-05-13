@@ -40,6 +40,10 @@ export type Client = {
 
 export const columns: ColumnDef<Client>[] = [
   {
+    accessorKey: "id",
+    header: "Transfer ID",
+  },
+  {
     accessorKey: "uid",
     header: "UID",
   },
@@ -116,12 +120,12 @@ export const columns: ColumnDef<Client>[] = [
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => approveStatus(client.transfer_id)}
+                  onClick={() => approveStatus(client.id)}
                 >
                   Approve
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => declineStatus(client.transfer_id)}
+                  onClick={() => declineStatus(client.id)}
                 >
                   Decline
                 </DropdownMenuItem>
