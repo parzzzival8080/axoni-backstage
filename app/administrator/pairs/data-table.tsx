@@ -50,9 +50,9 @@ export function DataTable<TData, TValue>({
   );
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
-  function openDialogExternally() {
-    setTimeout(() => setDialogOpen(true), 2);
-  }
+  // function openDialogExternally() {
+  //   setTimeout(() => setDialogOpen(true), 2);
+  // }
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const table = useReactTable({
@@ -77,9 +77,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter cryptocurrency..."
-          value={(table.getColumn("pair")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("pair_id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("pair")?.setFilterValue(event.target.value)
+            table.getColumn("pair_id")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -109,13 +109,13 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button
+        {/* <Button
           variant="outline"
           className="ml-1"
           onClick={openDialogExternally}
         >
           Create <Plus />
-        </Button>
+        </Button> */}
       </div>
       <div className="rounded-md border">
         <Table>

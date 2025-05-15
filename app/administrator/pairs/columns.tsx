@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { ArrowUpDown } from "lucide-react";
 import { AddPair } from "./add-pair";
 import { useState } from "react";
 
@@ -30,13 +29,59 @@ export type Pair = {
   imagePath: string;
 };
 
-export const columns: ColumnDef<Pair>[] = [
+const ActionsMenu = ({
+  pair,
+  fetchData,
+}: {
+  pair: Pair;
+  fetchData: () => void;
+}) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const openEditDialog = () => {
+    setTimeout(() => setDialogOpen(true), 2);
+  };
+
+  return (
+    <div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={openEditDialog}>
+            Edit Pair
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <AddPair
+        open={dialogOpen}
+        onOpenChange={(isOpen) => {
+          setDialogOpen(isOpen);
+          if (!isOpen) fetchData(); // ✅ Refresh when modal closes
+        }}
+        pair={pair}
+        onSuccess={() => {
+          setDialogOpen(false); // ✅ Close modal after submit
+          fetchData(); // ✅ Refresh table
+        }}
+      />
+    </div>
+  );
+};
+
+export const getColumns = (fetchData: () => void): ColumnDef<Pair>[] => [
   {
     accessorKey: "imagePath",
     header: "Icon",
   },
   {
-    accessorKey: "base_pair",
+    accessorKey: "pair_id",
     header: "Pair",
   },
   {
@@ -71,37 +116,10 @@ export const columns: ColumnDef<Pair>[] = [
     accessorKey: "sell_limit",
     header: "Sell Limit",
   },
-
   {
     id: "actions",
-    cell: ({ row }) => {
-      const [dialogOpen, setDialogOpen] = useState(false);
-      const pair = row.original;
-      const openDialogExternally = () => {
-        setTimeout(() => setDialogOpen(true), 2);
-      };
-      return (
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={openDialogExternally}
-              >
-                Edit Pair
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <AddPair open={dialogOpen} onOpenChange={setDialogOpen} pair={pair} />
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <ActionsMenu pair={row.original} fetchData={fetchData} />
+    ),
   },
 ];
