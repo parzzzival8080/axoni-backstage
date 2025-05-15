@@ -14,6 +14,7 @@ interface EditPairProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   pair: Pair;
+  onSuccess?: () => void; // 👈 This is needed
 }
 
 export const AddPair = ({ open, onOpenChange, pair }: EditPairProps) => {
