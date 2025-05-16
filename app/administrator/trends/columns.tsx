@@ -31,8 +31,8 @@ export type Trend = {
   current_price: string;
   minimum_price: string;
   maximum_price: string;
-  trend_status: boolean;
-  manual_status: boolean;
+  trend_status: string;
+  manual_status: string;
 };
 
 export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
@@ -78,22 +78,43 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
       const handleConfirmToggle = async () => {
         try {
           if (confirmAction === "trend") {
-            await axios.put(
-              "https://apiv2.bhtokens.com/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-              {
-                trend_status: !trends.trend_status ? "on" : "off",
-                coin_pair_id: trends.id,
-              }
-            );
+            if (trends.trend_status == "on") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  trend_status: "off",
+                  coin_pair_id: trends.id,
+                }
+              );
+            } else if (trends.trend_status == "off") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  trend_status: "on",
+                  coin_pair_id: trends.id,
+                }
+              );
+            }
             toast.success("Trend Status has been toggled.");
           } else if (confirmAction === "manual") {
-            await axios.put(
-              "https://apiv2.bhtokens.com/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-              {
-                manual_status: !trends.manual_status ? "on" : "off",
-                coin_pair_id: trends.id,
-              }
-            );
+            if (trends.manual_status == "off") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  manual_status: "on",
+                  coin_pair_id: trends.id,
+                }
+              );
+            } else if (trends.manual_status == "on") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  manual_status: "off",
+                  coin_pair_id: trends.id,
+                }
+              );
+            }
+
             toast.success("Manual Status has been toggled.");
           }
 
