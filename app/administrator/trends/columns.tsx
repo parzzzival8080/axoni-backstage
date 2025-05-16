@@ -13,8 +13,6 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { TrendPair } from "./trend-pair";
-
-// Import AlertDialog from ShadCN
 import {
   AlertDialog,
   AlertDialogContent,
@@ -24,7 +22,8 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner"; // Assuming you're using `sonner` for toasts
+import { toast } from "sonner";
+import axios from "axios";
 
 export type Trend = {
   id: string;
@@ -36,7 +35,7 @@ export type Trend = {
   manual_status: boolean;
 };
 
-export const columns: ColumnDef<Trend>[] = [
+export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
   {
     accessorKey: "id",
     header: "Pair ID",
@@ -69,52 +68,64 @@ export const columns: ColumnDef<Trend>[] = [
     id: "actions",
     cell: ({ row }) => {
       const [dialogOpen, setDialogOpen] = useState(false);
-      const [isTrendStatusOn, setIsTrendStatusOn] = useState(
-        row.original.trend_status
-      );
-      const [isManualStatusOn, setIsManualStatusOn] = useState(
-        row.original.manual_status
-      );
-
-      const trend = row.original;
-
-      // State to trigger confirmation dialog
       const [confirmAction, setConfirmAction] = useState<
         "trend" | "manual" | null
       >(null);
-
-      // Dropdown menu open state
       const [dropdownOpen, setDropdownOpen] = useState(false);
 
-      // Toggle Trend Status (ON/OFF)
-      const toggleTrendStatus = () => {
-        setConfirmAction("trend");
-        setDropdownOpen(false); // Close the dropdown menu before opening the alert dialog
-      };
+      const trends = row.original;
 
-      // Toggle Manual Status (ON/OFF)
-      const toggleManualStatus = () => {
-        setConfirmAction("manual");
-        setDropdownOpen(false); // Close the dropdown menu before opening the alert dialog
-      };
+      const handleConfirmToggle = async () => {
+        try {
+          if (confirmAction === "trend") {
+            if (trends.trend_status == "off") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  trend_status: "on",
+                  coin_pair_id: trends.id,
+                }
+              );
+            }
+            else if (trends.trend_status == "on") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  trend_status: "off",
+                  coin_pair_id: trends.id,
+                }
+              );
+            }
+            toast.success(`Trend Status has been toggled.`);
+          } else if (confirmAction === "manual") {
+            if (trends.manual_status == "off") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  manual_status: "on",
+                  coin_pair_id: trends.id,
+                }
+              );
+            }
+            else if (trends.manual_status == "on") {
+              await axios.put(
+                "https://apiv2.bhtokens.com/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                {
+                  manual_status: "off",
+                  coin_pair_id: trends.id,
+                }
+              );
+            }
 
-      const handleConfirmToggle = () => {
-        if (confirmAction === "trend") {
-          setIsTrendStatusOn(!isTrendStatusOn);
-          toast(`Trend Status ${isTrendStatusOn ? "OFF" : "ON"}`, {
-            description: `Trend Status has been ${
-              isTrendStatusOn ? "turned off" : "turned on"
-            }.`,
-          });
-        } else if (confirmAction === "manual") {
-          setIsManualStatusOn(!isManualStatusOn);
-          toast(`Manual Status ${isManualStatusOn ? "OFF" : "ON"}`, {
-            description: `Manual Status has been ${
-              isManualStatusOn ? "turned off" : "turned on"
-            }.`,
-          });
+            toast.success(`Manual Status has been toggled.`);
+          }
+          fetchData(); // ✅ Refetch after action
+        } catch (error) {
+          toast.error("Failed to update status");
+          console.error(error);
+        } finally {
+          setConfirmAction(null);
         }
-        setConfirmAction(null); // Reset the confirm action
       };
 
       return (
@@ -129,8 +140,6 @@ export const columns: ColumnDef<Trend>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-
-              {/* Open Trend Dialog */}
               <DropdownMenuItem
                 onClick={() => {
                   setDropdownOpen(false);
@@ -139,50 +148,45 @@ export const columns: ColumnDef<Trend>[] = [
               >
                 Trend
               </DropdownMenuItem>
-
-              {/* Toggle Trend Status */}
-              <DropdownMenuItem onClick={toggleTrendStatus}>
-                {isTrendStatusOn
-                  ? "Set Trend Status OFF"
-                  : "Set Trend Status ON"}
+              <DropdownMenuItem
+                onClick={() => {
+                  setDropdownOpen(false);
+                  setConfirmAction("trend");
+                }}
+              >
+                Toggle Trend Status
               </DropdownMenuItem>
-
-              {/* Toggle Manual Status */}
-              <DropdownMenuItem onClick={toggleManualStatus}>
-                {isManualStatusOn
-                  ? "Set Manual Status OFF"
-                  : "Set Manual Status ON"}
+              <DropdownMenuItem
+                onClick={() => {
+                  setDropdownOpen(false);
+                  setConfirmAction("manual");
+                }}
+              >
+                Toggle Manual Status
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Trend Pair Dialog */}
           <TrendPair
             open={dialogOpen}
             onOpenChange={setDialogOpen}
-            trend={trend}
+            trend={trends}
           />
 
-          {/* ShadCN AlertDialog for confirmation */}
           <AlertDialog
-            open={confirmAction !== null}
+            open={!!confirmAction}
             onOpenChange={(open) => open || setConfirmAction(null)}
           >
             <AlertDialogContent>
               <AlertDialogHeader>Are you sure?</AlertDialogHeader>
               <AlertDialogDescription>
-                Are you sure you want to change the{" "}
+                Change{" "}
                 {confirmAction === "trend" ? "Trend Status" : "Manual Status"}?
               </AlertDialogDescription>
               <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setConfirmAction(null)}>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={handleConfirmToggle}
-                  className="ml-3"
-                >
-                  Yes, I'm sure
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleConfirmToggle}>
+                  Yes, confirm
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
