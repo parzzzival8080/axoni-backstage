@@ -30,6 +30,9 @@ const formSchema = z.object({
   // id: z.string().min(1).max(50),
   price: z.string().min(1).max(500000000),
   percentage_threshold: z.string().min(1).max(5000000000),
+  minimum_price: z.string().min(1).max(5000000000),
+  maximum_price: z.string().min(1).max(5000000000),
+  set_percentage: z.string().min(1).max(5000000000),
 });
 
 export function DataForm({ trend }: { trend: Trend }) {
@@ -39,6 +42,9 @@ export function DataForm({ trend }: { trend: Trend }) {
     defaultValues: {
       price: trend.current_price,
       percentage_threshold: "0.05",
+      minimum_price: trend.minimum_price,
+      maximum_price: trend.maximum_price,
+      set_percentage: trend.set_percentage
     },
   });
 
@@ -86,6 +92,46 @@ export function DataForm({ trend }: { trend: Trend }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Percentage Threshold</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="minimum_price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Minimum Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="maximum_price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Maximum Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="set_percentage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Set Percentage</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>

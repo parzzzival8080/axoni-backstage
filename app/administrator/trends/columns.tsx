@@ -33,6 +33,9 @@ export type Trend = {
   maximum_price: string;
   trend_status: string;
   manual_status: string;
+  set_percentage: string;
+
+
 };
 
 export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
@@ -55,6 +58,10 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
   {
     accessorKey: "maximum_price",
     header: "Maximum Price",
+  },
+   {
+    accessorKey: "set_percentage",
+    header: "Maximum Percentage",
   },
   {
     accessorKey: "trend_status",

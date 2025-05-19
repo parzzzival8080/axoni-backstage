@@ -25,10 +25,6 @@ export type Wallet = {
 
 export const columns: ColumnDef<Wallet>[] = [
   {
-    accessorKey: "imagePath",
-    header: "Icon",
-  },
-  {
     accessorKey: "wallet_type",
     header: "Wallet Type",
   },

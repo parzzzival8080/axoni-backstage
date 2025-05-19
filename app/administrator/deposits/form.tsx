@@ -70,8 +70,8 @@ export function DataForm({ onSuccess }: DataFormProps) {
     axios
       .post("https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
       .then((res) => {
-        toast("Deposit Saved", {
-          description: "Deposit successfully saved!",
+        toast("Address Saved", {
+          description: "Address successfully saved!",
         });
         form.reset();      // ✅ Clear the form
         onSuccess();       // ✅ Trigger refetch and dialog close
