@@ -17,7 +17,7 @@ interface EditClientProps {
   client: Client;
 }
 
-// ✅ Basic fetchAssets using API response directly
+
 const fetchAssets = async (uid: string): Promise<Asset[]> => {
   try {
     const res = await fetch(

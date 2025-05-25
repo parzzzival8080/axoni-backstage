@@ -173,13 +173,14 @@ export const columns: ColumnDef<Client>[] = [
 
       async function allowClosePosition(id: string) {
         try {
+          console.log(id)
           const res = await axios.put(
             "https://apiv2.bhtokens.com/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { future_id: id, status: "declined" }
+            { future_id: id, status: "yes" }
           );
 
-          toast("Client Open Position Declined", {
-            description: `Open position ${id} successfully declined!`,
+          toast("Client Closing Position Allowed", {
+            description: `Open position ${id} successfully allowed!`,
           });
         } catch (error) {
           toast("Error", {

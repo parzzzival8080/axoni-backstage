@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { EditClient } from "./edit-client";
 import { Assets } from "./assets";
+import { Wallets } from "./wallets";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+
 
 // Define the Client type
 export type Client = {
@@ -32,6 +34,7 @@ export type Client = {
 function ClientActions({ client }: { client: Client }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [assetsDialogOpen, setAssetsDialogOpen] = useState(false);
+  const [walletDialogOpen, setWalletDialogOpen] = useState(false);
   const [selectedUid, setSelectedUid] = useState<string | null>(null); // ✅ track UID
 
   const openEditDialog = () => {
@@ -41,6 +44,11 @@ function ClientActions({ client }: { client: Client }) {
   const openAssetDialog = () => {
     setSelectedUid(client.uid); // ✅ store UID when opening assets
     setTimeout(() => setAssetsDialogOpen(true), 2);
+  };
+
+   const openWalletDialog = () => {
+    setSelectedUid(client.uid); // ✅ store UID when opening assets
+    setTimeout(() => setWalletDialogOpen(true), 2);
   };
 
   return (
@@ -68,6 +76,7 @@ function ClientActions({ client }: { client: Client }) {
             Approve Client
           </DropdownMenuItem>
           <DropdownMenuItem onClick={openAssetDialog}>Assets</DropdownMenuItem>
+          <DropdownMenuItem onClick={openWalletDialog}>Wallets</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -80,6 +89,12 @@ function ClientActions({ client }: { client: Client }) {
       <Assets
         open={assetsDialogOpen}
         onOpenChange={setAssetsDialogOpen}
+        client={client} // ✅ already includes `uid`
+      />
+
+      <Wallets
+        open={walletDialogOpen}
+        onOpenChange={setWalletDialogOpen}
         client={client} // ✅ already includes `uid`
       />
     </div>
