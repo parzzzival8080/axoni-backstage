@@ -108,6 +108,14 @@ export const columns: ColumnDef<Client>[] = [
     header: "UID",
   },
   {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "mobile_number",
+    header: "Number",
+  },
+  {
     accessorKey: "is_affiliate",
     header: "Affiliate",
   },

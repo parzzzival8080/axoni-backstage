@@ -64,11 +64,11 @@ const clients = [
     icon: Users,
   },
 
-  {
-    title: "Assets",
-    url: "/administrator/assets",
-    icon: Wallet2,
-  },
+  // {
+  //   title: "Assets",
+  //   url: "/administrator/assets",
+  //   icon: Wallet2,
+  // },
 
   {
     title: "KYC",
