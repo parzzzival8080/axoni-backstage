@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,9 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation"; // For redirecting after login
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-// Assuming you have a toast component
 
 export function LoginForm({
   className,
@@ -28,37 +27,34 @@ export function LoginForm({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     setIsLoading(true);
 
     try {
-      // Call your API for login here (replace with your real API)
-      // const response = await axios.post("https://your-api.com/login", {
-      //   email,
-      //   password,
-      // });
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email,
+        password,
+      });
 
-      // if (response.data && response.data.userRole === "admin") {
-        // Store user role in cookies (or use another storage mechanism)
-        document.cookie = `user_role=admin; path=/;`;
+      const { token, user } = response.data;
 
-        // Optionally set other user data in cookies/localStorage if needed
-        toast("Login successfully", {
-          description: `User Logged in successfully.`,
-        });
+      // Store token and user in localStorage
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
-        // Redirect to the admin dashboard or home page
-        router.push("/administrator/clients"); // Change to your desired page
-    //   } else {
-    //     toast("Login Failed", {
-    //       description: `Something went wrong.`,
-    //     });
-    //   }
-    } catch (error) {
-       toast("Login successfully", {
-          description: `User Logged in successfully.`,
-        });
-      console.error("Login failed:", error);
+      toast("Login successful", {
+        description: `Welcome back, ${user.name}`,
+      });
+
+      router.push("/administrator/clients");
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || "Login failed. Please try again.";
+
+      toast("Login failed", {
+        description: message,
+      });
+
+      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
