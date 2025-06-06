@@ -30,16 +30,15 @@ export function LoginForm({
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
+      const response = await axios.post("https://apiv2.bhtokens.com/api/v1/login", {
         email,
         password,
       });
 
       const { token, user } = response.data;
 
-      // Store token and user in localStorage
-      localStorage.setItem("auth_token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      // ✅ Set user_role cookie (accessible on server via next/headers)
+      document.cookie = `user_role=admin; path=/; secure; samesite=strict`;
 
       toast("Login successful", {
         description: `Welcome back, ${user.name}`,
@@ -48,7 +47,7 @@ export function LoginForm({
       router.push("/administrator/clients");
     } catch (error: any) {
       const message =
-        error.response?.data?.message || "Login failed. Please try again.";
+        error?.response?.data?.message || "Login failed. Please try again.";
 
       toast("Login failed", {
         description: message,
@@ -109,6 +108,7 @@ export function LoginForm({
                   variant="outline"
                   className="w-full"
                   disabled={isLoading}
+                  type="button"
                 >
                   Login with Google
                 </Button>
