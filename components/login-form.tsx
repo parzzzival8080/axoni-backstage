@@ -30,12 +30,17 @@ export function LoginForm({
     setIsLoading(true);
 
     try {
-      const response = await axios.post("https://apiv2.bhtokens.com/api/v1/login", {
-        email,
-        password,
-      });
-
+      const response = await axios.post(
+        "https://apiv2.bhtokens.com/api/v1/login",
+        {
+          email,
+          password,
+        }
+      );
       const { token, user } = response.data;
+
+      // Store the token (localStorage or cookie)
+      localStorage.setItem("auth_token", token);
 
       // ✅ Set user_role cookie (accessible on server via next/headers)
       document.cookie = `user_role=admin; path=/; secure; samesite=strict`;

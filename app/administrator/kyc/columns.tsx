@@ -68,63 +68,70 @@ export const columns: ColumnDef<Client>[] = [
     accessorKey: "verification_status",
     header: "Verification Status",
   },
- {
-  id: "actions",
-  cell: ({ row }) => {
-    const client = row.original;
-    const [dialogOpen, setDialogOpen] = useState(false);
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const client = row.original;
+      const [dialogOpen, setDialogOpen] = useState(false);
 
-    const handleUpdateStatus = async (status: "approved" | "declined") => {
-      try {
-        await axios.put(
-          `https://apiv2.bhtokens.com/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
-          {
-            kyc_id: client.kyc_id,
-            verification_status: status,
-          }
-        );
+      const handleUpdateStatus = async (status: "approved" | "declined") => {
+        try {
+          const token = localStorage.getItem("auth_token");
 
-        toast("Success", {
-          description: `Client ${
-            status === "approved" ? "approved" : "declined"
-          } for KYC.`,
-        });
+          await axios.put(
+            "https://apiv2.bhtokens.com/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            {
+              kyc_id: client.kyc_id,
+              verification_status: status,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json", // optional but good practice
+              },
+            }
+          );
 
-        // Optionally refresh UI or re-fetch table data
-      } catch (error: any) {
-        toast("Error", {
-          description:
-            error?.response?.data?.message || "Failed to update status.",
-        });
-        console.error("Status update error:", error);
-      }
-    };
+          toast("Success", {
+            description: `Client ${
+              status === "approved" ? "approved" : "declined"
+            } for KYC.`,
+          });
 
-    // ✅ Don't render action menu if already approved
-    if (client.verification_status === "approved") return null;
+          // Optionally refresh UI or re-fetch table data
+        } catch (error: any) {
+          toast("Error", {
+            description:
+              error?.response?.data?.message || "Failed to update status.",
+          });
+          console.error("Status update error:", error);
+        }
+      };
 
-    return (
-      <div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => handleUpdateStatus("approved")}>
-              Approve
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleUpdateStatus("declined")}>
-              Decline
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    );
+      // ✅ Don't render action menu if already approved
+      if (client.verification_status === "approved") return null;
+
+      return (
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => handleUpdateStatus("approved")}>
+                Approve
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleUpdateStatus("declined")}>
+                Decline
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
-}
-
 ];

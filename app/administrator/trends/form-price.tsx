@@ -44,10 +44,17 @@ export function DataForm({ trend }: { trend: Trend }) {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    axios
-      .put(
-        "https://apiv2.bhtokens.com/api/v1/set-trend?apikey=A20RqFwVktRxxRqrKBtmi6ud", values
-      )
+    const token = localStorage.getItem("auth_token");
+
+          axios.put(
+        "https://apiv2.bhtokens.com/api/v1/set-trend?apikey=A20RqFwVktRxxRqrKBtmi6ud", values,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json", // optional but good practice
+              },
+            }
+          )
       .then((res) => {
         toast("Trend set", {
           description: "Trend successfully set!",
