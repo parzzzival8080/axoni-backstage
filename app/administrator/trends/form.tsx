@@ -44,16 +44,23 @@ export function DataForm({ trend }: { trend: Trend }) {
       percentage_threshold: "0.05",
       minimum_price: trend.minimum_price,
       maximum_price: trend.maximum_price,
-      set_percentage: trend.set_percentage
+      set_percentage: trend.set_percentage,
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const token = localStorage.getItem("auth_token");
     axios
       .put(
         "https://apiv2.bhtokens.com/api/v1/set-trend?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-        { coin_pair_id: trend.id, ...values }
+        { coin_pair_id: trend.id, ...values },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // optional but good practice
+          },
+        }
       )
       .then((res) => {
         toast("Trend set", {
@@ -113,7 +120,7 @@ export function DataForm({ trend }: { trend: Trend }) {
               </FormItem>
             )}
           />
-           <FormField
+          <FormField
             control={form.control}
             name="maximum_price"
             render={({ field }) => (
@@ -126,7 +133,7 @@ export function DataForm({ trend }: { trend: Trend }) {
               </FormItem>
             )}
           />
-           <FormField
+          <FormField
             control={form.control}
             name="set_percentage"
             render={({ field }) => (
