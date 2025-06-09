@@ -74,9 +74,16 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
 
         async function approveStatus(id: string) {
           try {
+            const token = localStorage.getItem("auth_token");
             await axios.put(
               "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-              { transaction_id: id, status: "approved" }
+              { transaction_id: id, status: "approved" },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json", // optional but good practice
+                },
+              }
             );
             toast("Withdraw Approved", {
               description: `Withdraw ${id} successfully approved!`,
@@ -90,9 +97,17 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
 
         async function declineStatus(id: string) {
           try {
+            const token = localStorage.getItem("auth_token");
+
             await axios.put(
               "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-              { transaction_id: id, status: "rejected" }
+              { transaction_id: id, status: "rejected" },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json", // optional but good practice
+                },
+              }
             );
             toast("Withdraw Declined", {
               description: `Withdraw ${id} successfully declined!`,
@@ -129,4 +144,3 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
     },
   ];
 }
-
