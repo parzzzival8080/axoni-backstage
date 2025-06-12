@@ -43,9 +43,17 @@ export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
 
       async function updateStatus(id: string, status: "approved" | "declined") {
         try {
+          const token = localStorage.getItem("auth_token");
+
           await axios.put(
             "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            { transaction_id: id, status }
+            { transaction_id: id, status },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json", // optional but good practice
+              },
+            }
           );
 
           toast(`Deposit ${status}`, {
@@ -70,10 +78,14 @@ export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => updateStatus(client.id, "approved")}>
+            <DropdownMenuItem
+              onClick={() => updateStatus(client.id, "approved")}
+            >
               Approve
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => updateStatus(client.id, "declined")}>
+            <DropdownMenuItem
+              onClick={() => updateStatus(client.id, "declined")}
+            >
               Decline
             </DropdownMenuItem>
           </DropdownMenuContent>

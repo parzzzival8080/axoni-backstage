@@ -101,7 +101,7 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
 
             await axios.put(
               "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-              { transaction_id: id, status: "rejected" },
+              { transaction_id: id, status: "declined" },
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
