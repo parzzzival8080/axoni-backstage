@@ -32,7 +32,7 @@ const formSchema = z.object({
   initial_amount: z.string().min(1).max(50),
   network_id: z.string().min(1).max(50),
   fee: z.string().min(1).max(50),
-  transaction_type: z.string().min(1).max(50)
+  transaction_type: z.string().min(1).max(50),
 });
 
 type DataFormProps = {
@@ -42,14 +42,25 @@ type DataFormProps = {
 export function DataForm({ onSuccess }: DataFormProps) {
   const [users, setUsers] = useState<{ user_id: string; uid: string }[]>([]);
   const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
-  const [networks, setNetworks] = useState<{ network_id: string; name: string }[]>([]);
+  const [networks, setNetworks] = useState<
+    { network_id: string; name: string }[]
+  >([]);
 
   useEffect(() => {
-    axios.get("https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+    axios
+      .get(
+        "https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      )
       .then((res) => setUsers(res.data));
-    axios.get("https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+    axios
+      .get(
+        "https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      )
       .then((res) => setCoins(res.data));
-    axios.get("https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+    axios
+      .get(
+        "https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      )
       .then((res) => setNetworks(res.data));
   }, []);
 
@@ -68,13 +79,16 @@ export function DataForm({ onSuccess }: DataFormProps) {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     axios
-      .post("https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
+      .post(
+        "https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        values
+      )
       .then((res) => {
         toast("Address Saved", {
           description: "Address successfully saved!",
         });
-        form.reset();      // ✅ Clear the form
-        onSuccess();       // ✅ Trigger refetch and dialog close
+        form.reset(); // ✅ Clear the form
+        onSuccess(); // ✅ Trigger refetch and dialog close
       })
       .catch((err) => {
         toast("Error", {
@@ -95,21 +109,9 @@ export function DataForm({ onSuccess }: DataFormProps) {
               <FormItem>
                 <FormLabel>Client</FormLabel>
                 <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Client" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {users.map((user) => (
-                        <SelectItem key={user.user_id} value={user.uid}>
-                          {user.uid}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Input {...field} />
                 </FormControl>
+                <FormMessage />
                 <FormMessage />
               </FormItem>
             )}
