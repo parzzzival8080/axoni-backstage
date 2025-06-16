@@ -93,28 +93,16 @@ export function DataForm({ onSuccess }: { onSuccess: () => void }) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-4 mb-2">
-          <FormField
+           <FormField
             control={form.control}
             name="uid"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Client</FormLabel>
                 <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Client" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {users.map((user) => (
-                        <SelectItem key={user.user_id} value={user.uid}>
-                          {user.uid}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Input {...field} />
                 </FormControl>
+                <FormMessage />
                 <FormMessage />
               </FormItem>
             )}

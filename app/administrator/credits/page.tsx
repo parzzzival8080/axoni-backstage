@@ -45,7 +45,7 @@ export default function DemoPage() {
   return (
     <div>
       <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
-        Deposits
+        Credits
       </h2>
       <Breadcrumb className="m-3">
         <BreadcrumbList>
@@ -54,7 +54,7 @@ export default function DemoPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Deposits</BreadcrumbPage>
+            <BreadcrumbPage>Credits</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
