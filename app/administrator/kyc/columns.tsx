@@ -79,7 +79,7 @@ export const columns: ColumnDef<Client>[] = [
           const token = localStorage.getItem("auth_token");
 
           await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://api.kinecoin.co/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
             {
               kyc_id: client.kyc_id,
               verification_status: status,

@@ -31,7 +31,7 @@ export function LoginForm({
 
     try {
       const response = await axios.post(
-        "https://apiv2.bhtokens.com/api/v1/login",
+        "https://api.kinecoin.co/api/v1/login",
         {
           email,
           password,

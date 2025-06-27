@@ -45,7 +45,7 @@ export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
         const token = localStorage.getItem("auth_token");
         try {
           await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://api.kinecoin.co/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
             { transaction_id: id, status },
             {
               headers: {

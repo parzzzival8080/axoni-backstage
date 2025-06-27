@@ -37,7 +37,7 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
 
   useEffect(() => {
     axios
-      .get("https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+      .get("https://api.kinecoin.co/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
       .then((res) => setCoins(res.data));
   }, []);
 
@@ -52,8 +52,8 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = pair.id
-        ? `https://apiv2.bhtokens.com/api/v1/coin-pairs/${pair.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
-        : `https://apiv2.bhtokens.com/api/v1/coin-pairs?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
+        ? `https://api.kinecoin.co/api/v1/coin-pairs/${pair.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+        : `https://api.kinecoin.co/api/v1/coin-pairs?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
 
       const method = pair.id ? axios.put : axios.post;
 

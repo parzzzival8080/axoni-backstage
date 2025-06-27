@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
   try {
-    const { data } = await axios.post("https://apiv2.bhtokens.com/api/v1/login", {
+    const { data } = await axios.post("https://api.kinecoin.co/api/v1/login", {
       email,
       password,
     });

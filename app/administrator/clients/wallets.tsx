@@ -22,7 +22,7 @@ interface EditClientProps {
 const fetchAssets = async (uid: string): Promise<Wallet[]> => {
   try {
     const res = await fetch(
-      `https://apiv2.bhtokens.com/api/v1/user-addresses/${uid}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+      `https://api.kinecoin.co/api/v1/user-addresses/${uid}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
     );
     if (!res.ok) throw new Error("Failed to fetch wallets");
     const data = await res.json();
@@ -56,7 +56,7 @@ export const Wallets = ({ open, onOpenChange, client }: EditClientProps) => {
     const assignWallet = async () => {
       try {
         const res = await axios.post(
-          "https://apiv2.bhtokens.com/api/v1/assign-wallets/" +
+          "https://api.kinecoin.co/api/v1/assign-wallets/" +
             client.uid +
             "?apikey=A20RqFwVktRxxRqrKBtmi6ud"
         );

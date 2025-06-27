@@ -34,7 +34,7 @@ export const columns: ColumnDef<Wallet>[] = [
       async function handleDelete() {
         try {
           await axios.delete(
-            `https://apiv2.bhtokens.com/api/v1/remove-wallet?apikey=A20RqFwVktRxxRqrKBtmi6ud&wallet_id=` + wallet.wallet_id,
+            `https://api.kinecoin.co/api/v1/remove-wallet?apikey=A20RqFwVktRxxRqrKBtmi6ud&wallet_id=` + wallet.wallet_id,
           );
           toast.success(`Address ${wallet.address} deleted successfully.`);
         } catch (error) {

@@ -88,7 +88,7 @@ export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() =>
                   handleAction(
-                    "https://apiv2.bhtokens.com/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                    "https://api.kinecoin.co/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                     { future_id: client.future_no, status: "open_position" },
                     "Open Position Approved",
                     "Failed to approve open position."
@@ -98,7 +98,7 @@ export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() =>
                   handleAction(
-                    "https://apiv2.bhtokens.com/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                    "https://api.kinecoin.co/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                     { future_id: client.future_no, status: "declined" },
                     "Open Position Declined",
                     "Failed to decline open position."
@@ -121,7 +121,7 @@ export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() =>
                   handleAction(
-                    "https://apiv2.bhtokens.com/api/v1/close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                    "https://api.kinecoin.co/api/v1/close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                     { future_id: client.future_no, status: "decline" },
                     "Position Closed",
                     "Failed to close position."
@@ -131,7 +131,7 @@ export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() =>
                   handleAction(
-                    "https://apiv2.bhtokens.com/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                    "https://api.kinecoin.co/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                     { future_id: client.future_no, status: "yes" },
                     "Close Allowed",
                     "Failed to allow close."

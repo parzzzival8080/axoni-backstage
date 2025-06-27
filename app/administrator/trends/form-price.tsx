@@ -48,7 +48,7 @@ export function DataForm({ trend }: { trend: Trend }) {
     console.log(token)
     axios
       .put(
-        "https://apiv2.bhtokens.com/api/v1/set-trend?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        "https://api.kinecoin.co/api/v1/set-trend?apikey=A20RqFwVktRxxRqrKBtmi6ud",
         values,
         {
           headers: {

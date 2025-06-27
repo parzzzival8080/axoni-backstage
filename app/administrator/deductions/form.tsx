@@ -44,17 +44,17 @@ export function DataForm() {
   useEffect(() => {
     axios
       .get(
-        "https://apiv2.bhtokens.com/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+        "https://api.kinecoin.co/api/v1/user-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
       )
       .then((res) => setUsers(res.data));
     axios
       .get(
-        "https://apiv2.bhtokens.com/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+        "https://api.kinecoin.co/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
       )
       .then((res) => setCoins(res.data));
     axios
       .get(
-        "https://apiv2.bhtokens.com/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+        "https://api.kinecoin.co/api/v1/network-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
       )
       .then((res) => setNetworks(res.data));
   }, []);
@@ -74,7 +74,7 @@ export function DataForm() {
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
-      .post("https://apiv2.bhtokens.com/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
+      .post("https://api.kinecoin.co/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
       .then((res) => {
         toast("Deduction Saved", {
           description: "Deduction successfully saved!",

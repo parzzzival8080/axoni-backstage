@@ -16,7 +16,7 @@ import { getColumns } from "./columns"; // 👈 changed from `columns` to `getCo
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
-      "https://apiv2.bhtokens.com/api/v1/orders?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      "https://api.kinecoin.co/api/v1/orders?apikey=A20RqFwVktRxxRqrKBtmi6ud"
     );
     if (!response.ok) throw new Error("Failed to fetch data");
     const data: Client[] = await response.json();

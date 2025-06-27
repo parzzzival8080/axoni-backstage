@@ -86,7 +86,7 @@ export const columns: ColumnDef<Client>[] = [
       async function approveStatus(id: string) {
         try {
           const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://api.kinecoin.co/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
             { transaction_id: id, status: "approved" }
           );
 
@@ -104,7 +104,7 @@ export const columns: ColumnDef<Client>[] = [
       async function declineStatus(id: string) {
         try {
           const res = await axios.put(
-            "https://apiv2.bhtokens.com/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://api.kinecoin.co/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
             { transaction_id: id, status: "approved" }
           );
 

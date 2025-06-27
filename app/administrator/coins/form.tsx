@@ -41,7 +41,7 @@ export function DataForm({ coin }: { coin: Coin }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
       .post(
-        "https://apiv2.bhtokens.com/api/v1/coins?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        "https://api.kinecoin.co/api/v1/coins?apikey=A20RqFwVktRxxRqrKBtmi6ud",
         values
       )
       .then((res) => {

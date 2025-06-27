@@ -20,7 +20,7 @@ export default function DemoPage() {
   const getData = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("https://apiv2.bhtokens.com/api/v1/futures?apikey=A20RqFwVktRxxRqrKBtmi6ud");
+      const res = await fetch("https://api.kinecoin.co/api/v1/futures?apikey=A20RqFwVktRxxRqrKBtmi6ud");
       const result = await res.json();
       setData(result); // ✅ This updates table data
     } catch (err) {
