@@ -12,6 +12,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
@@ -20,9 +27,9 @@ export type Client = {
   uid: string;
   username: string;
   email: string;
-  selfie_pic: string;
-  front_id: string;
-  back_id: string;
+  captured_selfie: string;
+  front_captured_image: string;
+  back_captured_image: string;
   kyc_level?: string;
   full_name?: string;
   address?: string;
@@ -79,7 +86,7 @@ export const columns: ColumnDef<Client>[] = [
           const token = localStorage.getItem("auth_token");
 
           await axios.put(
-            "https://api.kinecoin.co/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://apiv2.bhtokens.com/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
             {
               kyc_id: client.kyc_id,
               verification_status: status,
@@ -87,7 +94,7 @@ export const columns: ColumnDef<Client>[] = [
             {
               headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json", // optional but good practice
+                "Content-Type": "application/json",
               },
             }
           );
@@ -97,8 +104,6 @@ export const columns: ColumnDef<Client>[] = [
               status === "approved" ? "approved" : "declined"
             } for KYC.`,
           });
-
-          // Optionally refresh UI or re-fetch table data
         } catch (error: any) {
           toast("Error", {
             description:
@@ -108,28 +113,60 @@ export const columns: ColumnDef<Client>[] = [
         }
       };
 
-      // ✅ Don't render action menu if already approved
       if (client.verification_status === "approved") return null;
 
       return (
         <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => handleUpdateStatus("approved")}>
-                Approve
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleUpdateStatus("declined")}>
-                Decline
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => setTimeout(() => setDialogOpen(true), 2)}>
+                  View Images
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleUpdateStatus("approved")}>
+                  Approve
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleUpdateStatus("declined")}>
+                  Decline
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>KYC Documents</DialogTitle>
+                <DialogDescription>
+                  Review the images submitted by the client.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+                {[
+                  { label: "Selfie", src: client.captured_selfie },
+                  { label: "Front ID", src: client.front_captured_image },
+                  { label: "Back ID", src: client.back_captured_image },
+                ].map(({ label, src }) => (
+                  <div key={label} className="flex flex-col items-center">
+                    <a href={src} target="_blank" rel="noopener noreferrer">
+                      <img
+                        src={src}
+                        alt={label}
+                        className="rounded border w-40 h-40 object-cover hover:shadow-lg transition"
+                      />
+                    </a>
+                    <span className="text-xs mt-2">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       );
     },

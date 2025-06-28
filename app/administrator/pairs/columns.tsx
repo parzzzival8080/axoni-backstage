@@ -53,9 +53,7 @@ const ActionsMenu = ({
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={openEditDialog}>
-            Edit Pair
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={openEditDialog}>Edit Pair</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -63,12 +61,12 @@ const ActionsMenu = ({
         open={dialogOpen}
         onOpenChange={(isOpen) => {
           setDialogOpen(isOpen);
-          if (!isOpen) fetchData(); // ✅ Refresh when modal closes
+          if (!isOpen) fetchData();
         }}
         pair={pair}
         onSuccess={() => {
-          setDialogOpen(false); // ✅ Close modal after submit
-          fetchData(); // ✅ Refresh table
+          setDialogOpen(false);
+          fetchData();
         }}
       />
     </div>
@@ -77,9 +75,29 @@ const ActionsMenu = ({
 
 export const getColumns = (fetchData: () => void): ColumnDef<Pair>[] => [
   {
-    accessorKey: "imagePath",
-    header: "Icon",
+  accessorKey: "imagePath",
+  header: "Icon",
+  cell: ({ row }) => {
+    const src = row.original.imagePath?.replace(/([^:]\/)\/+/g, "$1"); // sanitize slashes
+    return (
+      <div className="flex justify-center items-center">
+        {src ? (
+          <a href={src} target="_blank" rel="noopener noreferrer">
+            <img
+              src={src}
+              alt="icon"
+              width={32}
+              height={32}
+              className="rounded-full w-8 h-8 object-cover border border-gray-200 shadow-sm hover:scale-105 transition-transform"
+            />
+          </a>
+        ) : (
+          <span className="text-xs text-gray-400">No Icon</span>
+        )}
+      </div>
+    );
   },
+},
   {
     accessorKey: "pair_id",
     header: "Pair",
