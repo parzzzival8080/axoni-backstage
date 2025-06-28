@@ -56,20 +56,8 @@ export const columns: ColumnDef<Client>[] = [
     header: "Level",
   },
   {
-    accessorKey: "full_name",
-    header: "Full Name",
-  },
-  {
-    accessorKey: "address",
-    header: "Address",
-  },
-  {
     accessorKey: "document_type",
     header: "Document Type",
-  },
-  {
-    accessorKey: "document_number",
-    header: "Document Number",
   },
   {
     accessorKey: "verification_status",
