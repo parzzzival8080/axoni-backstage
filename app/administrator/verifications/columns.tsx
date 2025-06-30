@@ -61,7 +61,7 @@ export const columns: ColumnDef<Client>[] = [
   },
 
   {
-    accessorKey: "code_type",
+    accessorKey: "type",
     header: "Type",
   },
 ];
