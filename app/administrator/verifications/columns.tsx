@@ -27,16 +27,15 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-export type Client = {
+export type Verification = {
   id: string;
   uid: string;
-  username: string;
+  email: string;
   code: string;
   code_type: string;
-  status: string;
 };
 
-export const columns: ColumnDef<Client>[] = [
+export const columns: ColumnDef<Verification>[] = [
   {
     accessorKey: "uid",
     header: "UID",

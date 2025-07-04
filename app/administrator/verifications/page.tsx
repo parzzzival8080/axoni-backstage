@@ -6,26 +6,25 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Client, columns } from "./columns";
+import { Verification, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { DataForm } from "./form";
 
-const getData = async (): Promise<Client[]> => {
+const getData = async (): Promise<Verification[]> => {
   try {
-    const token = localStorage.getItem("auth_token");
     const response = await fetch(
       "https://api.kinecoin.co/api/v1/otps?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // optional but good practice
-        },
-      }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     "Content-Type": "application/json", // optional but good practice
+      //   },
+      // }
     ); // Replace with your real API URL
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-    const data: Client[] = await response.json();
+    const data: Verification[] = await response.json();
     console.log(data);
     return data;
   } catch (error) {
