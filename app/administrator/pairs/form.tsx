@@ -51,11 +51,11 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = pair.id
-        ? `https://api.kinecoin.co/api/v1/coin-pairs/${pair.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+      const url = pair.coin_pair_id
+        ? `https://api.kinecoin.co/api/v1/coin-pairs/${pair.coin_pair_id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
         : `https://api.kinecoin.co/api/v1/coin-pairs?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
 
-      const method = pair.id ? axios.put : axios.post;
+      const method = pair.coin_pair_id ? axios.put : axios.post;
 
       await method(url, values);
 

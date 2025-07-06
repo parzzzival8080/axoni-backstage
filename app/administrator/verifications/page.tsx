@@ -15,6 +15,7 @@ const getData = async (): Promise<Verification[]> => {
     const response = await fetch(
       "https://api.kinecoin.co/api/v1/otps?apikey=A20RqFwVktRxxRqrKBtmi6ud",
       // {
+      // {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
       //     "Content-Type": "application/json", // optional but good practice

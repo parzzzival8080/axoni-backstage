@@ -15,7 +15,7 @@ import { AddPair } from "./add-pair";
 import { useState } from "react";
 
 export type Pair = {
-  id: string;
+  coin_pair_id: string;
   pair_id: string;
   coin_id: string;
   is_tradable: string;
@@ -75,6 +75,10 @@ const ActionsMenu = ({
 
 export const getColumns = (fetchData: () => void): ColumnDef<Pair>[] => [
   {
+    accessorKey: "id",
+    header: "Pair ID",
+  },
+  {
   accessorKey: "imagePath",
   header: "Icon",
   cell: ({ row }) => {
@@ -99,7 +103,7 @@ export const getColumns = (fetchData: () => void): ColumnDef<Pair>[] => [
   },
 },
   {
-    accessorKey: "pair_id",
+    accessorKey: "coin_pair_id",
     header: "Pair",
   },
   {

@@ -36,7 +36,11 @@ export type Client = {
   status: string;
 };
 
-export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
+export const getColumns = (
+  refreshData: () => void,
+  setShowAccumulationForm: (show: boolean) => void,
+  setSelectedFutureId: (id: string) => void
+): ColumnDef<Client>[] => [
   { accessorKey: "future_no", header: "Future ID" },
   { accessorKey: "uid", header: "UID" },
   { accessorKey: "coin", header: "Pair" },
@@ -77,7 +81,8 @@ export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
 
       return (
         <div>
-          {client.status === "pending" && (
+          {(client.status === "pending" ||
+            client.status === "open_position") && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
@@ -86,59 +91,77 @@ export const getColumns = (refreshData: () => void): ColumnDef<Client>[] => [
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() =>
-                  handleAction(
-                    "https://api.kinecoin.co/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-                    { future_id: client.future_no, status: "open_position" },
-                    "Open Position Approved",
-                    "Failed to approve open position."
-                  )
-                }>
-                  Approve
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() =>
-                  handleAction(
-                    "https://api.kinecoin.co/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-                    { future_id: client.future_no, status: "declined" },
-                    "Open Position Declined",
-                    "Failed to decline open position."
-                  )
-                }>
-                  Decline
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
 
-          {client.status === "open_position" && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() =>
-                  handleAction(
-                    "https://api.kinecoin.co/api/v1/close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-                    { future_id: client.future_no, status: "decline" },
-                    "Position Closed",
-                    "Failed to close position."
-                  )
-                }>
-                  Close Position
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() =>
-                  handleAction(
-                    "https://api.kinecoin.co/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-                    { future_id: client.future_no, status: "yes" },
-                    "Close Allowed",
-                    "Failed to allow close."
-                  )
-                }>
-                  Allow Close
-                </DropdownMenuItem>
+                {client.status === "pending" && (
+                  <>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        handleAction(
+                          "https://api.kinecoin.co/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          {
+                            future_id: client.future_no,
+                            status: "open_position",
+                          },
+                          "Open Position Approved",
+                          "Failed to approve open position."
+                        )
+                      }
+                    >
+                      Approve
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        handleAction(
+                          "https://api.kinecoin.co/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          { future_id: client.future_no, status: "declined" },
+                          "Open Position Declined",
+                          "Failed to decline open position."
+                        )
+                      }
+                    >
+                      Decline
+                    </DropdownMenuItem>
+                  </>
+                )}
+
+                {client.status === "open_position" && (
+                  <>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        handleAction(
+                          "https://api.kinecoin.co/api/v1/close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          { future_id: client.future_no, status: "decline" },
+                          "Position Closed",
+                          "Failed to close position."
+                        )
+                      }
+                    >
+                      Close Position
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        handleAction(
+                          "https://api.kinecoin.co/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          { future_id: client.future_no, status: "yes" },
+                          "Close Allowed",
+                          "Failed to allow close."
+                        )
+                      }
+                    >
+                      Allow Close
+                    </DropdownMenuItem>
+
+                    {/* ✅ Show Add Accumulation only for open_position */}
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setSelectedFutureId(client.future_no);
+                        setShowAccumulationForm(true);
+                      }}
+                    >
+                      Add Accumulation
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           )}
