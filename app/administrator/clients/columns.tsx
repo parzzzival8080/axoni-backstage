@@ -114,8 +114,8 @@ function ClientActions({ client }: { client: Client }) {
     e.preventDefault();
     try {
       const token = localStorage.getItem("auth_token");
-      const res = await axios.post(
-        "http://api.kinecoin.co/api/v1/set-level?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+      const res = await axios.put(
+        "https://api.kinecoin.co/api/v1/update-level?apikey=A20RqFwVktRxxRqrKBtmi6ud",
         {
           uid: client.uid,
           level: selectedLevel,
