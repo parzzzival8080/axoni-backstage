@@ -59,7 +59,7 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
 
       await method(url, values);
 
-      toast(pair.id ? "Successfully Updated" : "Pair Saved", {
+      toast(pair.coin_pair_id ? "Successfully Updated" : "Pair Saved", {
         description: "Pair successfully saved!",
       });
 
