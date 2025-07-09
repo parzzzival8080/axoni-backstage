@@ -50,8 +50,8 @@ export function LoginForm({
       });
 
       setTimeout(() => {
+        // location.reload(); // 🔁 Force reload to trigger components that check auth
         router.push("/administrator/clients");
-        location.reload(); // 🔁 Force reload to trigger components that check auth
       }, 100);
     } catch (error: any) {
       const message =

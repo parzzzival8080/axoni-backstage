@@ -30,12 +30,13 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
+
+    // Delete the user_role cookie (client-side only works on hard reload)
     document.cookie =
       "user_role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/login");
-    setTimeout(() => {
-      location.reload(); // 🔁 force all components to re-evaluate token presence
-    }, 50);
+
+    // Force full page reload to clear layout/sidebar from SSR
+    window.location.href = "/login";
   };
 
   if (!isLoggedIn) return null; // ✅ Hide navbar when not logged in
