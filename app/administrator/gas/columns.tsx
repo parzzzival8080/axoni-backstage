@@ -37,6 +37,15 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
     { accessorKey: "fee", header: "Fee" },
     { accessorKey: "status", header: "Status" },
     {
+      accessorKey: "created_at",
+      header: "Transaction Time",
+      cell: ({ row }) => {
+        const value = row.getValue("created_at");
+        const date = new Date(value as string);
+        return date.toLocaleString(); // Formats to something like "7/9/2025, 4:35:00 PM"
+      },
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const client = row.original;
