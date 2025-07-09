@@ -152,9 +152,13 @@ function ClientActions({ client }: { client: Client }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={openEditDialog}>Edit Client</DropdownMenuItem>
+          <DropdownMenuItem onClick={openEditDialog}>
+            Edit Client
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={openFreezeDialog}>{freezeActionLabel}</DropdownMenuItem>
+          <DropdownMenuItem onClick={openFreezeDialog}>
+            {freezeActionLabel}
+          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
               toast("Client approved", {
@@ -165,9 +169,13 @@ function ClientActions({ client }: { client: Client }) {
             Approve Client
           </DropdownMenuItem>
           <DropdownMenuItem onClick={openAssetDialog}>Assets</DropdownMenuItem>
-          <DropdownMenuItem onClick={openWalletDialog}>Wallets</DropdownMenuItem>
+          <DropdownMenuItem onClick={openWalletDialog}>
+            Wallets
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={openLevelDialog}>Set Level</DropdownMenuItem>
+          <DropdownMenuItem onClick={openLevelDialog}>
+            Set Level
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -175,7 +183,9 @@ function ClientActions({ client }: { client: Client }) {
       <AlertDialog open={freezeDialogOpen} onOpenChange={setFreezeDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{freezeActionLabel} this client?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {freezeActionLabel} this client?
+            </AlertDialogTitle>
             <AlertDialogDescription>
               {isFrozen
                 ? "This will allow the client to access their account again."
@@ -202,7 +212,10 @@ function ClientActions({ client }: { client: Client }) {
               </DialogDescription>
             </DialogHeader>
             <div className="my-4">
-              <Select value={selectedLevel} onValueChange={(value) => setSelectedLevel(value)}>
+              <Select
+                value={selectedLevel}
+                onValueChange={(value) => setSelectedLevel(value)}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select level" />
                 </SelectTrigger>
@@ -217,7 +230,9 @@ function ClientActions({ client }: { client: Client }) {
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button type="button" variant="secondary">Cancel</Button>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
               </DialogClose>
               <Button type="submit">Submit</Button>
             </DialogFooter>
@@ -226,9 +241,21 @@ function ClientActions({ client }: { client: Client }) {
       </Dialog>
 
       {/* Other Dialogs */}
-      <EditClient open={editDialogOpen} onOpenChange={setEditDialogOpen} client={client} />
-      <Assets open={assetsDialogOpen} onOpenChange={setAssetsDialogOpen} client={client} />
-      <Wallets open={walletDialogOpen} onOpenChange={setWalletDialogOpen} client={client} />
+      <EditClient
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        client={client}
+      />
+      <Assets
+        open={assetsDialogOpen}
+        onOpenChange={setAssetsDialogOpen}
+        client={client}
+      />
+      <Wallets
+        open={walletDialogOpen}
+        onOpenChange={setWalletDialogOpen}
+        client={client}
+      />
     </div>
   );
 }
@@ -244,8 +271,16 @@ export const columns: ColumnDef<Client>[] = [
     header: "Email",
   },
   {
-    accessorKey: "mobile_number",
+    accessorKey: "phone_number",
     header: "Number",
+  },
+  {
+    accessorKey: "user_country",
+    header: "Country",
+  },
+  {
+    accessorKey: "ip_address",
+    header: "IP Address",
   },
   {
     accessorKey: "is_affiliate",
@@ -264,8 +299,16 @@ export const columns: ColumnDef<Client>[] = [
     header: "Status",
   },
   {
+    accessorKey: "created_at",
+    header: "Register Time",
+    cell: ({ row }) => {
+      const value = row.getValue("created_at");
+      const date = new Date(value as string);
+      return date.toLocaleString(); // Formats to something like "7/9/2025, 4:35:00 PM"
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => <ClientActions client={row.original} />,
   },
 ];
-
