@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Client } from "./columns";
 import { columns, Wallet } from "./wallet-columns";
-import { DataTable } from "./data-table";
+import { DataTable } from "./asset-data-table";
 import { Button } from "@/components/ui/button";
 
 interface EditClientProps {
