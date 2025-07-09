@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Client } from "./columns";
 import { columns, Asset } from "./asset-columns";
-import { DataTable } from "./data-table";
+import { DataTable } from "./asset-data-table";
 
 interface EditClientProps {
   open: boolean;

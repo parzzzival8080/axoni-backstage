@@ -4,6 +4,7 @@ import {
   ColumnDef,
   SortingState,
   VisibilityState,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -31,40 +32,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import * as React from "react";
+import { Plus } from "lucide-react";
 
-interface DataTableProps<TData extends { uid?: string; pair?: string }, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData extends { uid?: string; pair?: string }, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [globalFilter, setGlobalFilter] = React.useState("");
-
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      columnVisibility,
-      globalFilter,
-    },
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    globalFilterFn: (row, _columnId, filterValue) => {
-      const val = filterValue.toLowerCase();
-      const uid = row.original.uid?.toLowerCase() ?? "";
-      const pair = row.original.pair?.toLowerCase() ?? "";
-      return uid.includes(val) || pair.includes(val);
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
     },
   });
 
@@ -72,9 +70,11 @@ export function DataTable<TData extends { uid?: string; pair?: string }, TValue>
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search UID or Pair..."
-          value={globalFilter}
-          onChange={(event) => setGlobalFilter(event.target.value)}
+          placeholder="Filter emails..."
+          value={(table.getColumn("uid")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("uid")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -87,18 +87,20 @@ export function DataTable<TData extends { uid?: string; pair?: string }, TValue>
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) =>
-                    column.toggleVisibility(!!value)
-                  }
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -107,16 +109,18 @@ export function DataTable<TData extends { uid?: string; pair?: string }, TValue>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
@@ -129,7 +133,10 @@ export function DataTable<TData extends { uid?: string; pair?: string }, TValue>
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -162,6 +169,7 @@ export function DataTable<TData extends { uid?: string; pair?: string }, TValue>
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
+            
           Next
         </Button>
       </div>

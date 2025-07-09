@@ -1,33 +1,28 @@
+"use client";
 
+import { useEffect, useState } from "react";
 import {
   ArrowLeftRight,
-  Banknote,
   BanknoteArrowDown,
   BanknoteArrowUp,
   Bitcoin,
-  Calendar,
   CandlestickChart,
-  ChevronDown,
   ChevronUp,
   CircleDollarSign,
   Coins,
   CreditCard,
   Fuel,
-  HandCoins,
-  Home,
-  Inbox,
   Key,
   Lock,
-  Search,
   Send,
   Settings,
   Settings2,
-  User2,
   UserMinus,
   Users,
   Wallet,
-  Wallet2,
 } from "lucide-react";
+
+import Link from "next/link";
 import {
   Sidebar,
   SidebarContent,
@@ -41,110 +36,50 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "./ui/sidebar";
-import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
-
-// Menu items.
 
 const clients = [
-  {
-    title: "Clients",
-    url: "/administrator/clients",
-    icon: Users,
-  },
-
-  // {
-  //   title: "Assets",
-  //   url: "/administrator/assets",
-  //   icon: Wallet2,
-  // },
-
-  {
-    title: "KYC",
-    url: "/administrator/kyc",
-    icon: Lock,
-  },
-  {
-    title: "Deposits",
-    url: "/administrator/deposits",
-    icon: BanknoteArrowUp,
-  },
+  { title: "Clients", url: "/administrator/clients", icon: Users },
+  { title: "KYC", url: "/administrator/kyc", icon: Lock },
+  { title: "Deposits", url: "/administrator/deposits", icon: BanknoteArrowUp },
   {
     title: "Withdraws",
     url: "/administrator/withdraws",
     icon: BanknoteArrowDown,
   },
-  {
-    title: "Credits",
-    url: "/administrator/credits",
-    icon: CreditCard,
-  },
-  {
-    title: "Deductions",
-    url: "/administrator/deductions",
-    icon: UserMinus,
-  },
-  {
-    title: "Gas",
-    url: "/administrator/gas",
-    icon: Fuel,
-  },
-
-  {
-    title: "Verifications",
-    url: "/administrator/verifications",
-    icon: Send,
-  },
+  { title: "Credits", url: "/administrator/credits", icon: CreditCard },
+  { title: "Deductions", url: "/administrator/deductions", icon: UserMinus },
+  { title: "Gas", url: "/administrator/gas", icon: Fuel },
+  { title: "Verifications", url: "/administrator/verifications", icon: Send },
 ];
 
 const trading = [
-  {
-    title: "Spot",
-    url: "/administrator/spot",
-    icon: CandlestickChart,
-  },
-  {
-    title: "Transfers",
-    url: "/administrator/transfers",
-    icon: ArrowLeftRight,
-  },
-  {
-    title: "Futures",
-    url: "/administrator/futures",
-    icon: CircleDollarSign,
-  },
+  { title: "Spot", url: "/administrator/spot", icon: CandlestickChart },
+  { title: "Transfers", url: "/administrator/transfers", icon: ArrowLeftRight },
+  { title: "Futures", url: "/administrator/futures", icon: CircleDollarSign },
 ];
 
 const cryptocurrency = [
-  {
-    title: "Coins",
-    url: "/administrator/coins",
-    icon: Bitcoin,
-  },
-  {
-    title: "Pairs",
-    url: "/administrator/pairs",
-    icon: Coins,
-  },
-  {
-    title: "Trends",
-    url: "/administrator/trends",
-    icon: CandlestickChart,
-  },
+  { title: "Coins", url: "/administrator/coins", icon: Bitcoin },
+  { title: "Pairs", url: "/administrator/pairs", icon: Coins },
+  { title: "Trends", url: "/administrator/trends", icon: CandlestickChart },
 ];
+
 const AppSidebar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth_token"); // 👈 match key
+    setIsLoggedIn(!!token);
+  }, []);
+
+  if (!isLoggedIn) return null; // 🔒 Hide sidebar if not logged in
+
   return (
     <Sidebar collapsible="icon" side="left">
       <SidebarHeader>

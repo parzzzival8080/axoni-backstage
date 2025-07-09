@@ -52,10 +52,6 @@ export const columns: ColumnDef<Client>[] = [
     header: "Email",
   },
   {
-    accessorKey: "kyc_level",
-    header: "Level",
-  },
-  {
     accessorKey: "document_type",
     header: "Document Type",
   },

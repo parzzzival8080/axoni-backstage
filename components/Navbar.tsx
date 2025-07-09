@@ -1,5 +1,7 @@
-"use client"
+"use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LogOut, Moon, Settings, Sun, User } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -12,21 +14,42 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { useTheme } from "next-themes"
-import { SidebarTrigger, useSidebar } from "./ui/sidebar";
+import { useTheme } from "next-themes";
+import { SidebarTrigger } from "./ui/sidebar";
 
 const Navbar = () => {
-    const { setTheme } = useTheme()
-    // const {toggleSidebar} = useSidebar()
+  const { setTheme } = useTheme();
+  const router = useRouter();
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth_token"); // 👈 match key
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    document.cookie =
+      "user_role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push("/login");
+    setTimeout(() => {
+      location.reload(); // 🔁 force all components to re-evaluate token presence
+    }, 50);
+  };
+
+  if (!isLoggedIn) return null; // ✅ Hide navbar when not logged in
+
   return (
     <nav className="p-4 flex items-center justify-between">
       {/* Left */}
-      <SidebarTrigger/>
-      {/* <Button variant="outline" onClick={toggleSidebar}>Custom Button</Button> */}
+      <SidebarTrigger />
+
       {/* Right */}
       <div className="flex items-center gap-4">
         <Link href="">Dashboard</Link>
-        {/* Theme */}
+
+        {/* Theme Switcher */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
@@ -48,7 +71,7 @@ const Navbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Menu */}
+        {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
@@ -67,7 +90,10 @@ const Navbar = () => {
               <Settings className="h-[1.2rem] w-[1.2rem] mr-2" />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem variant="destructive">
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="text-red-600 focus:text-red-700"
+            >
               <LogOut className="h-[1.2rem] w-[1.2rem] mr-2" />
               Logout
             </DropdownMenuItem>

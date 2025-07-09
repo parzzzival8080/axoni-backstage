@@ -49,7 +49,10 @@ export function LoginForm({
         description: `Welcome back, ${user.name}`,
       });
 
-      router.push("/administrator/clients");
+      setTimeout(() => {
+        router.push("/administrator/clients");
+        location.reload(); // 🔁 Force reload to trigger components that check auth
+      }, 100);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || "Login failed. Please try again.";
