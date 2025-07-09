@@ -103,7 +103,7 @@ export const getColumns = (fetchData: () => void): ColumnDef<Pair>[] => [
   },
 },
   {
-    accessorKey: "coin_pair_id",
+    accessorKey: "pair",
     header: "Pair",
   },
   {

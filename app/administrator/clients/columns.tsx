@@ -283,16 +283,8 @@ export const columns: ColumnDef<Client>[] = [
     header: "IP Address",
   },
   {
-    accessorKey: "is_affiliate",
-    header: "Affiliate",
-  },
-  {
     accessorKey: "usable",
     header: "Account Usable",
-  },
-  {
-    accessorKey: "is_broker",
-    header: "Broker",
   },
   {
     accessorKey: "is_status",
