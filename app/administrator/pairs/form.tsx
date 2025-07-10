@@ -32,19 +32,26 @@ const formSchema = z.object({
   sell_limit: z.string().min(1).max(50),
 });
 
-export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => void }) {
+export function DataForm({
+  pair,
+  onSuccess,
+}: {
+  pair: Pair;
+  onSuccess?: () => void;
+}) {
   const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
 
   useEffect(() => {
     axios
-      .get("https://api.kinecoin.co/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+      .get(
+        "https://api.kinecoin.co/api/v1/coin-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      )
       .then((res) => setCoins(res.data));
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      
       buy_limit: pair.buy_limit || "",
       sell_limit: pair.sell_limit || "",
     },
@@ -107,4 +114,3 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
     </Form>
   );
 }
-
