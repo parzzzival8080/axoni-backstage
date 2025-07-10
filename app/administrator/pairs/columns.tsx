@@ -15,7 +15,7 @@ import { AddPair } from "./add-pair";
 import { useState } from "react";
 
 export type Pair = {
-  coin_pair_id: string;
+  pair: string;
   pair_id: string;
   coin_id: string;
   is_tradable: string;
