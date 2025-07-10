@@ -44,6 +44,7 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      
       buy_limit: pair.buy_limit || "",
       sell_limit: pair.sell_limit || "",
     },
@@ -51,11 +52,11 @@ export function DataForm({ pair, onSuccess }: { pair: Pair; onSuccess?: () => vo
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = pair.pair
-        ? `https://api.kinecoin.co/api/v1/coin-pairs/${pair.pair}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+      const url = pair.id
+        ? `https://api.kinecoin.co/api/v1/coin-pairs/${pair.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
         : `https://api.kinecoin.co/api/v1/coin-pairs?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
 
-      const method = pair.pair ? axios.put : axios.post;
+      const method = pair.id ? axios.put : axios.put;
 
       await method(url, values);
 
