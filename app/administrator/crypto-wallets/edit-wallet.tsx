@@ -30,29 +30,29 @@ export const EditWallet = ({ wallet, onClose }: EditWalletProps) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      const token = localStorage.getItem("auth_token");
+  try {
+    const token = localStorage.getItem("auth_token");
 
-      const response = await axios.put(
-        `https://api.kinecoin.co/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
-        {
-          address: formData.address,
-          assigned_to: formData.assigned_to,
+    const response = await axios.put(
+      `https://api.kinecoin.co/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
+      {
+        address: formData.address,
+        assigned_to: formData.assigned_to,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      }
+    );
 
-      console.log("✅ Wallet updated:", response.data);
-      onClose();
-    } catch (error: any) {
-      console.error("❌ Failed to update wallet:", error?.response?.data || error.message);
-    }
-  };
+    console.log("✅ Wallet updated:", response.data);
+    onClose();
+  } catch (error: any) {
+    console.error("❌ Failed to update wallet:", error?.response?.data || error.message);
+  }
+};
 
   return (
     <Dialog open onOpenChange={onClose}>
