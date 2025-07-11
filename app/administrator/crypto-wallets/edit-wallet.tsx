@@ -34,7 +34,7 @@ export const EditWallet = ({ wallet, onClose }: EditWalletProps) => {
       const token = localStorage.getItem("auth_token");
 
       const response = await axios.put(
-        "https://api.kinecoin.co/api/v1/wallet-addresses/" + wallet.id + " ?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        `https://api.kinecoin.co/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
         {
           address: formData.address,
           assigned_to: formData.assigned_to,
