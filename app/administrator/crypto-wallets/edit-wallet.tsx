@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "axios"; // ⬅️ Import axios
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -9,16 +17,28 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Wallet } from "./columns";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal, Pencil } from "lucide-react";
 
-type EditWalletProps = {
-  wallet: Wallet;
-  onClose: () => void;
+export type Wallet = {
+  id: string;
+  wallet_type: string;
+  address: string;
+  status: string;
+  assigned_to: string;
 };
 
-export const EditWallet = ({ wallet, onClose }: EditWalletProps) => {
+// ✅ Embedded EditWallet component
+function EditWallet({
+  wallet,
+  open,
+  onOpenChange,
+}: {
+  wallet: Wallet;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const [formData, setFormData] = useState<Wallet>(wallet);
 
   useEffect(() => {
@@ -30,32 +50,38 @@ export const EditWallet = ({ wallet, onClose }: EditWalletProps) => {
   };
 
   const handleSubmit = async () => {
-  try {
-    const token = localStorage.getItem("auth_token");
+    const token = localStorage.getItem("token"); // ⬅️ Get token from storage or context
+    const url = `https://api.kinecoin.co/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
 
-    const response = await axios.put(
-      `https://api.kinecoin.co/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
-      {
-        address: formData.address,
-        assigned_to: formData.assigned_to,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+    try {
+      const res = await axios.put(
+        url,
+        {
+          address: formData.address,
+          assigned_to: formData.assigned_to,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    console.log("✅ Wallet updated:", response.data);
-    onClose();
-  } catch (error: any) {
-    console.error("❌ Failed to update wallet:", error?.response?.data || error.message);
-  }
-};
+      console.log("✅ API Success:", res.data);
+      onOpenChange(false);
+    } catch (error: any) {
+      console.error("❌ API Error:", error);
+      alert(
+        error?.response?.data?.message ??
+          error?.message ??
+          "An unknown error occurred"
+      );
+    }
+  };
 
   return (
-    <Dialog open onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Edit Wallet</DialogTitle>
@@ -75,7 +101,7 @@ export const EditWallet = ({ wallet, onClose }: EditWalletProps) => {
         </div>
 
         <DialogFooter>
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="secondary" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
           <Button onClick={handleSubmit}>Save</Button>
@@ -83,4 +109,60 @@ export const EditWallet = ({ wallet, onClose }: EditWalletProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
+
+// ✅ Actions per row
+function WalletActions({ wallet }: { wallet: Wallet }) {
+  const [editOpen, setEditOpen] = useState(false);
+  const openEdit = () => setTimeout(() => setEditOpen(true), 2);
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem onClick={openEdit}>
+            <Pencil className="mr-2 h-4 w-4" />
+            Edit Wallet
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <EditWallet wallet={wallet} open={editOpen} onOpenChange={setEditOpen} />
+    </>
+  );
+}
+
+// ✅ Final column definitions
+export const columns: ColumnDef<Wallet>[] = [
+  {
+    accessorKey: "id",
+    header: "Wallet ID",
+  },
+  {
+    accessorKey: "assigned_to",
+    header: "Assigned To",
+  },
+  {
+    accessorKey: "address",
+    header: "Address",
+  },
+  {
+    accessorKey: "wallet_type",
+    header: "Wallet Type",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <WalletActions wallet={row.original} />,
+  },
+];

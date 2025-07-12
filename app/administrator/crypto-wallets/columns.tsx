@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,7 +29,7 @@ export type Wallet = {
   assigned_to: string;
 };
 
-// ✅ Embedded EditWallet component
+// ✅ Embedded EditWallet component with working handleSubmit
 function EditWallet({
   wallet,
   open,
@@ -48,9 +49,33 @@ function EditWallet({
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
-    console.log("Updated wallet:", formData);
-    onOpenChange(false);
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+
+      const response = await axios.put(
+        `https://api.kinecoin.co/api/v1/update-wallet-address?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
+        {
+          wallet_id: wallet.id,
+          address: formData.address,
+          assigned_to: formData.assigned_to,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("✅ Wallet updated:", response.data);
+      onOpenChange(false);
+    } catch (error: any) {
+      console.error(
+        "❌ Failed to update wallet:",
+        error?.response?.data || error.message
+      );
+    }
   };
 
   return (
