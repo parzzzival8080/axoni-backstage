@@ -20,6 +20,7 @@ import {
   UserMinus,
   Users,
   Wallet,
+  RefreshCcw
 } from "lucide-react";
 
 import Link from "next/link";
@@ -60,7 +61,7 @@ const clients = [
 
 const trading = [
   { title: "Spot", url: "/administrator/spot", icon: CandlestickChart },
-    { title: "conversions", url: "/administrator/conversions", icon: CircleDollarSign },
+    { title: "conversions", url: "/administrator/conversions", icon: RefreshCcw },
   { title: "Transfers", url: "/administrator/transfers", icon: ArrowLeftRight },
   { title: "Futures", url: "/administrator/futures", icon: CircleDollarSign },
 ];
