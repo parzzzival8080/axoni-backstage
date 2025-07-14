@@ -14,9 +14,17 @@ import { Client } from "./columns";
 import { getColumns } from "./columns"; // 👈 changed from `columns` to `getColumns`
 
 const getData = async (): Promise<Client[]> => {
+  const token = localStorage.getItem("auth_token");
+
   try {
     const response = await fetch(
-      "https://api.kinecoin.co/api/v1/conversions?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      "https://api.kinecoin.co/api/v1/fetch-conversions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
     if (!response.ok) throw new Error("Failed to fetch data");
     const data: Client[] = await response.json();
@@ -47,7 +55,7 @@ export default function DemoPage() {
   return (
     <div>
       <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-        Conversions
+        Spot Orders
       </h2>
       <Breadcrumb className="m-3">
         <BreadcrumbList>
@@ -62,7 +70,11 @@ export default function DemoPage() {
       </Breadcrumb>
 
       <div className="mb-8 px-4 py-2 bg-secondary rounded-md">
-        {loading ? <p>Loading...</p> : <DataTable columns={columns} data={data} />}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <DataTable columns={columns} data={data} />
+        )}
       </div>
     </div>
   );
