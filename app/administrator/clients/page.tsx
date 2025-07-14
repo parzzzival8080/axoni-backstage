@@ -21,7 +21,7 @@ export default function DemoPage() {
       const token = localStorage.getItem("auth_token");
       try {
         const response = await fetch(
-          "https://api.kinecoin.co/api/v1/user-details?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+          "https://api.kinecoin.co/api/v1/fetch-user-details?apikey=A20RqFwVktRxxRqrKBtmi6ud",
           {
             headers: {
               Authorization: `Bearer ${token}`,

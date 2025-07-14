@@ -60,6 +60,7 @@ const clients = [
 
 const trading = [
   { title: "Spot", url: "/administrator/spot", icon: CandlestickChart },
+    { title: "conversions", url: "/administrator/conversions", icon: CircleDollarSign },
   { title: "Transfers", url: "/administrator/transfers", icon: ArrowLeftRight },
   { title: "Futures", url: "/administrator/futures", icon: CircleDollarSign },
 ];
