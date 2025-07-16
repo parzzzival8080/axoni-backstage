@@ -87,15 +87,13 @@ export const columns: ColumnDef<Client>[] = [
             {
               headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json", // optional but good practice
+                "Content-Type": "application/json",
               },
             }
           );
 
           toast("Success", {
-            description: `Client ${
-              status === "approved" ? "approved" : "declined"
-            } for KYC.`,
+            description: `Client ${status} for KYC.`,
           });
         } catch (error: any) {
           toast("Error", {
@@ -105,8 +103,6 @@ export const columns: ColumnDef<Client>[] = [
           console.error("Status update error:", error);
         }
       };
-
-      if (client.verification_status === "approved") return null;
 
       return (
         <div>
@@ -120,15 +116,26 @@ export const columns: ColumnDef<Client>[] = [
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => setTimeout(() => setDialogOpen(true), 2)}>
+                <DropdownMenuItem
+                  onClick={() => setTimeout(() => setDialogOpen(true), 2)}
+                >
                   View Images
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleUpdateStatus("approved")}>
-                  Approve
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleUpdateStatus("declined")}>
-                  Decline
-                </DropdownMenuItem>
+
+                {client.verification_status !== "approved" && (
+                  <DropdownMenuItem
+                    onClick={() => handleUpdateStatus("approved")}
+                  >
+                    Approve
+                  </DropdownMenuItem>
+                )}
+                {client.verification_status !== "declined" && (
+                  <DropdownMenuItem
+                    onClick={() => handleUpdateStatus("declined")}
+                  >
+                    Decline
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
 
