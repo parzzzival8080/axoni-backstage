@@ -27,7 +27,7 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   uid: z.string().min(1).max(50),
-  txid: z.string().min(10).max(50),
+  txid: z.string().min(10).max(100),
   coin_id: z.string().min(1).max(50),
   initial_amount: z.string().min(1).max(50),
   network_id: z.string().min(1).max(50),
