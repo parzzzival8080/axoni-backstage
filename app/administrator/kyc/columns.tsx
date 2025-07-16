@@ -68,107 +68,106 @@ export const columns: ColumnDef<Client>[] = [
       return date.toLocaleString(); // Formats to something like "7/9/2025, 4:35:00 PM"
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const client = row.original;
-      const [dialogOpen, setDialogOpen] = useState(false);
+{
+  id: "actions",
+  cell: ({ row }) => {
+    const client = row.original;
+    const [dialogOpen, setDialogOpen] = useState(false);
 
-      const handleUpdateStatus = async (status: "approved" | "declined") => {
-        try {
-          const token = localStorage.getItem("auth_token");
+    const handleUpdateStatus = async (status: "approved" | "declined") => {
+      try {
+        const token = localStorage.getItem("auth_token");
 
-          await axios.put(
-            "https://api.kinecoin.co/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
-            {
-              kyc_id: client.kyc_id,
-              verification_status: status,
+        await axios.put(
+          "https://api.kinecoin.co/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+          {
+            kyc_id: client.kyc_id,
+            verification_status: status,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          }
+        );
 
-          toast("Success", {
-            description: `Client ${status} for KYC.`,
-          });
-        } catch (error: any) {
-          toast("Error", {
-            description:
-              error?.response?.data?.message || "Failed to update status.",
-          });
-          console.error("Status update error:", error);
-        }
-      };
+        toast("Success", {
+          description: `Client ${status} for KYC.`,
+        });
+      } catch (error: any) {
+        toast("Error", {
+          description:
+            error?.response?.data?.message || "Failed to update status.",
+        });
+        console.error("Status update error:", error);
+      }
+    };
 
-      return (
-        <div>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() => setTimeout(() => setDialogOpen(true), 2)}
-                >
-                  View Images
-                </DropdownMenuItem>
+    return (
+      <div>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-                {client.verification_status !== "approved" && (
-                  <DropdownMenuItem
-                    onClick={() => handleUpdateStatus("approved")}
-                  >
-                    Approve
-                  </DropdownMenuItem>
+              {/* Always show View Images */}
+              <DropdownMenuItem onClick={() => setTimeout(() => setDialogOpen(true), 2)}>
+                View Images
+              </DropdownMenuItem>
+
+              {/* Only show Approve if not already approved or declined */}
+              {client.verification_status !== "approved" &&
+                client.verification_status !== "declined" && (
+                  <>
+                    <DropdownMenuItem onClick={() => handleUpdateStatus("approved")}>
+                      Approve
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleUpdateStatus("declined")}>
+                      Decline
+                    </DropdownMenuItem>
+                  </>
                 )}
-                {client.verification_status !== "declined" && (
-                  <DropdownMenuItem
-                    onClick={() => handleUpdateStatus("declined")}
-                  >
-                    Decline
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>KYC Documents</DialogTitle>
-                <DialogDescription>
-                  Review the images submitted by the client.
-                </DialogDescription>
-              </DialogHeader>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>KYC Documents</DialogTitle>
+              <DialogDescription>
+                Review the images submitted by the client.
+              </DialogDescription>
+            </DialogHeader>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-                {[
-                  { label: "Selfie", src: client.captured_selfie },
-                  { label: "Front ID", src: client.front_captured_image },
-                  { label: "Back ID", src: client.back_captured_image },
-                ].map(({ label, src }) => (
-                  <div key={label} className="flex flex-col items-center">
-                    <a href={src} target="_blank" rel="noopener noreferrer">
-                      <img
-                        src={src}
-                        alt={label}
-                        className="rounded border w-40 h-40 object-cover hover:shadow-lg transition"
-                      />
-                    </a>
-                    <span className="text-xs mt-2">{label}</span>
-                  </div>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      );
-    },
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+              {[
+                { label: "Selfie", src: client.captured_selfie },
+                { label: "Front ID", src: client.front_captured_image },
+                { label: "Back ID", src: client.back_captured_image },
+              ].map(({ label, src }) => (
+                <div key={label} className="flex flex-col items-center">
+                  <a href={src} target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={src}
+                      alt={label}
+                      className="rounded border w-40 h-40 object-cover hover:shadow-lg transition"
+                    />
+                  </a>
+                  <span className="text-xs mt-2">{label}</span>
+                </div>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
   },
+}
+
 ];
