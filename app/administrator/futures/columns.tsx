@@ -51,7 +51,7 @@ export const getColumns = (
   { accessorKey: "margin", header: "Margin" },
   { accessorKey: "cycle", header: "Cycle" },
   { accessorKey: "asset", header: "Asset In coins" },
-  
+  { accessorKey: "asset_in_usdt", header: "Asset In USDT" },
   { accessorKey: "income", header: "Income In USDT" },
   { accessorKey: "accumulation", header: "Accumulation" },
   { accessorKey: "accumulation_in_usdt", header: "In USDT" },
