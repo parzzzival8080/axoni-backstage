@@ -53,7 +53,9 @@ export const getColumns = (
   { accessorKey: "asset", header: "Asset(In coins)" },
   { accessorKey: "income", header: "Income(In USDT)" },
   { accessorKey: "accumulation", header: "Accumulation" },
+  { accessorKey: "accumulation_in_usdt", header: "In USDT" },
   { accessorKey: "total_recharge", header: "Total Recharge" },
+  { accessorKey: "recharge_in_usdt", header: "In USDT" },
   { accessorKey: "close_approval", header: "Close Approval" },
   { accessorKey: "status", header: "Status" },
   {
