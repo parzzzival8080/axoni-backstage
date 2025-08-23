@@ -30,9 +30,9 @@ export const AddDeposit = ({ open, onOpenChange }: DialogComponentProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Credit</DialogTitle>
+          <DialogTitle>Create Deduction</DialogTitle>
           <DialogDescription>
-            Create credit for a client. Click save when you're done.
+            Create deduction for a client. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <DataForm onSuccess={handleSuccess} /> {/* ✅ pass onSuccess */}

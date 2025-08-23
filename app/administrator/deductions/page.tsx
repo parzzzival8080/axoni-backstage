@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,33 +9,42 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Client, columns } from "./columns";
 import { DataTable } from "./data-table";
-import { DataForm } from "./form";
+import { getColumns, Client } from "./columns"; // 👈 use getColumns
 
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
       "https://api.kinecoin.co/api/v1/transaction-records?apikey=A20RqFwVktRxxRqrKBtmi6ud&transaction_type=deduction"
-    ); // Replace with your real API URL
-    if (!response.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    const data: Client[] = await response.json();
-    console.log(data);
-    return data;
+    );
+    if (!response.ok) throw new Error("Failed to fetch data");
+    return await response.json();
   } catch (error) {
     console.error("Error fetching data:", error);
-    return []; // Return empty array in case of error
+    return [];
   }
 };
 
-export default async function DemoPage() {
-  const data = await getData();
+export default function DemoPage() {
+  const [data, setData] = useState<Client[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const result = await getData();
+    setData(result);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const columns = getColumns(fetchData); // 👈 pass refresh callback
 
   return (
-    <div className="">
-      <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+    <div>
+      <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
         Deductions
       </h2>
       <Breadcrumb className="m-3">
@@ -47,7 +59,7 @@ export default async function DemoPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="mb-8 px-4 py-2 bg-secondary rounded-md">
-        <DataTable columns={columns} data={data} />
+        {loading ? <p>Loading...</p> : <DataTable columns={columns} data={data} />}
       </div>
     </div>
   );

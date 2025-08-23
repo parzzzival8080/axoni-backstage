@@ -28,7 +28,7 @@ import { toast } from "sonner";
 const formSchema = z.object({
   uid: z.string().min(1).max(50),
   txid: z.string().min(10).max(50),
-  coin_id: z.string().min(2).max(50),
+  coin_id: z.string().min(1).max(50),
   initial_amount: z.string().min(1).max(50),
   network_id: z.string().min(1).max(50),
   fee: z.string().min(1).max(50),
@@ -73,7 +73,7 @@ export function DataForm({ onSuccess }: DataFormProps) {
       network_id: "",
       initial_amount: "",
       fee: "0",
-      transaction_type: "deposit",
+      transaction_type: "credit",
     },
   });
 

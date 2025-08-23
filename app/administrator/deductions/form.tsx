@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,21 +24,27 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
 const formSchema = z.object({
   uid: z.string().min(1).max(50),
   txid: z.string().min(10).max(50),
-  coin_id: z.string().min(2).max(50),
+  coin_id: z.string().min(1).max(50),
   initial_amount: z.string().min(1).max(50),
   network_id: z.string().min(1).max(50),
   fee: z.string().min(1).max(50),
-  transaction_type: z.string().min(1).max(50)
+  transaction_type: z.string().min(1).max(50),
 });
 
-export function DataForm() {
-  // 1. Define your form.
+type DataFormProps = {
+  onSuccess: () => void;
+};
+
+export function DataForm({ onSuccess }: DataFormProps) {
   const [users, setUsers] = useState<{ user_id: string; uid: string }[]>([]);
   const [coins, setCoins] = useState<{ coin_id: string; name: string }[]>([]);
-  const [networks, setNetworks] = useState<{ network_id: string; name: string }[]>([]);
+  const [networks, setNetworks] = useState<
+    { network_id: string; name: string }[]
+  >([]);
 
   useEffect(() => {
     axios
@@ -58,6 +63,7 @@ export function DataForm() {
       )
       .then((res) => setNetworks(res.data));
   }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,20 +72,23 @@ export function DataForm() {
       txid: "",
       network_id: "",
       initial_amount: "",
-      fee: '0',
+      fee: "0",
       transaction_type: "deduction",
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     axios
-      .post("https://api.kinecoin.co/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
+      .post(
+        "https://api.kinecoin.co/api/v1/transactions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        values
+      )
       .then((res) => {
         toast("Deduction Saved", {
           description: "Deduction successfully saved!",
         });
-        console.log("Saved:", res.data);
+        form.reset(); // ✅ Clear the form
+        onSuccess(); // ✅ Trigger refetch and dialog close
       })
       .catch((err) => {
         toast("Error", {
@@ -87,12 +96,13 @@ export function DataForm() {
         });
         console.error("Save failed:", err);
       });
-  }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-4 mb-2">
-           <FormField
+          <FormField
             control={form.control}
             name="uid"
             render={({ field }) => (
@@ -141,7 +151,7 @@ export function DataForm() {
               <FormItem>
                 <FormLabel>TXID</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,7 +195,7 @@ export function DataForm() {
               <FormItem>
                 <FormLabel>Amount</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
