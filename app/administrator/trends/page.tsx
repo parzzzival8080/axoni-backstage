@@ -13,7 +13,7 @@ export default function DemoPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://api.kinecoin.co/api/v1/trends?apikey=A20RqFwVktRxxRqrKBtmi6ud");
+      const response = await fetch("https://api.fluxcoin.tech/api/v1/trends?apikey=A20RqFwVktRxxRqrKBtmi6ud");
       if (!response.ok) throw new Error("Failed to fetch data");
       const trends: Trend[] = await response.json();
       setData(trends);

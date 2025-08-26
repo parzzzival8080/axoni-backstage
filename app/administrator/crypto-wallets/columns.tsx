@@ -54,7 +54,7 @@ function EditWallet({
       const token = localStorage.getItem("auth_token");
 
       const response = await axios.put(
-        `https://api.kinecoin.co/api/v1/update-wallet-address?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
+        `https://api.fluxcoin.tech/api/v1/update-wallet-address?apikey=A20RqFwVktRxxRqrKBtmi6ud`,
         {
           wallet_id: wallet.id,
           address: formData.address,

@@ -20,7 +20,7 @@ export default function DemoPage() {
       try {
         const token = localStorage.getItem("auth_token");
 
-        const response = await fetch("https://api.kinecoin.co/api/v1/kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud", {
+        const response = await fetch("https://api.fluxcoin.tech/api/v1/kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -86,7 +86,7 @@ function ClientActions({ client }: { client: Client }) {
     try {
       const token = localStorage.getItem("auth_token");
       await axios.put(
-        "https://api.kinecoin.co/api/v1/freeze-account?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        "https://api.fluxcoin.tech/api/v1/freeze-account?apikey=A20RqFwVktRxxRqrKBtmi6ud",
         {
           uid: client.uid,
           action: isFrozen ? "unfreeze" : "freeze",
@@ -115,7 +115,7 @@ function ClientActions({ client }: { client: Client }) {
     try {
       const token = localStorage.getItem("auth_token");
       const res = await axios.put(
-        "https://api.kinecoin.co/api/v1/update-level?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        "https://api.fluxcoin.tech/api/v1/update-level?apikey=A20RqFwVktRxxRqrKBtmi6ud",
         {
           uid: client.uid,
           level: selectedLevel,

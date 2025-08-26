@@ -51,7 +51,7 @@ export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
           const token = localStorage.getItem("auth_token");
 
           await axios.put(
-            "https://api.kinecoin.co/api/v1/update-transfer?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://api.fluxcoin.tech/api/v1/update-transfer?apikey=A20RqFwVktRxxRqrKBtmi6ud",
             { transfer_id: id, status },
             {
               headers: {

@@ -18,7 +18,7 @@ const getData = async (): Promise<Client[]> => {
 
   try {
     const response = await fetch(
-      "https://api.kinecoin.co/api/v1/fetch-conversions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+      "https://api.fluxcoin.tech/api/v1/fetch-conversions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -85,7 +85,7 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
           try {
             const token = localStorage.getItem("auth_token");
             await axios.put(
-              "https://api.kinecoin.co/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+              "https://api.fluxcoin.tech/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
               { transaction_id: id, status: "approved" },
               {
                 headers: {
@@ -109,7 +109,7 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
             const token = localStorage.getItem("auth_token");
 
             await axios.put(
-              "https://api.kinecoin.co/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+              "https://api.fluxcoin.tech/api/v1/update-transaction?apikey=A20RqFwVktRxxRqrKBtmi6ud",
               { transaction_id: id, status: "declined" },
               {
                 headers: {

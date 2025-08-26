@@ -25,7 +25,7 @@ export default function AddAccumulationForm({
       const token = localStorage.getItem("auth_token");
 
       await axios.put(
-        "https://api.kinecoin.co/api/v1/update-accumulation?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        "https://api.fluxcoin.tech/api/v1/update-accumulation?apikey=A20RqFwVktRxxRqrKBtmi6ud",
         {
           future_id: futureId,
           accumulation: amount,

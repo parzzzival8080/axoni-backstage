@@ -15,7 +15,7 @@ import { getColumns, Client } from "./columns"; // 👈 use getColumns
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
-      "https://api.kinecoin.co/api/v1/transaction-records?apikey=A20RqFwVktRxxRqrKBtmi6ud&transaction_type=credit"
+      "https://api.fluxcoin.tech/api/v1/transaction-records?apikey=A20RqFwVktRxxRqrKBtmi6ud&transaction_type=credit"
     );
     if (!response.ok) throw new Error("Failed to fetch data");
     return await response.json();

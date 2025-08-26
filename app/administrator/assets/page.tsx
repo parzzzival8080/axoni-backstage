@@ -13,7 +13,7 @@ import { DataForm } from "./form";
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
-      "https://api.kinecoin.co/api/v1/user-assets?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      "https://api.fluxcoin.tech/api/v1/user-assets?apikey=A20RqFwVktRxxRqrKBtmi6ud"
     ); // Replace with your real API URL
     if (!response.ok) {
       throw new Error("Failed to fetch data");

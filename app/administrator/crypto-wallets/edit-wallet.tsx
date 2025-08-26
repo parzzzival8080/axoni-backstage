@@ -51,7 +51,7 @@ function EditWallet({
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("token"); // ⬅️ Get token from storage or context
-    const url = `https://api.kinecoin.co/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
+    const url = `https://api.fluxcoin.tech/api/v1/wallet-addresses/${wallet.id}?apikey=A20RqFwVktRxxRqrKBtmi6ud`;
 
     try {
       const res = await axios.put(

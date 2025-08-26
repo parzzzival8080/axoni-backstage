@@ -79,7 +79,7 @@ export const columns: ColumnDef<Client>[] = [
         const token = localStorage.getItem("auth_token");
 
         await axios.put(
-          "https://api.kinecoin.co/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+          "https://api.fluxcoin.tech/api/v1/update-kyc?apikey=A20RqFwVktRxxRqrKBtmi6ud",
           {
             kyc_id: client.kyc_id,
             verification_status: status,

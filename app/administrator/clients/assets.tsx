@@ -21,7 +21,7 @@ interface EditClientProps {
 const fetchAssets = async (uid: string): Promise<Asset[]> => {
   try {
     const res = await fetch(
-      `https://api.kinecoin.co/api/v1/user-assets/${uid}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
+      `https://api.fluxcoin.tech/api/v1/user-assets/${uid}?apikey=A20RqFwVktRxxRqrKBtmi6ud`
     );
     if (!res.ok) throw new Error("Failed to fetch assets");
     const data = await res.json();

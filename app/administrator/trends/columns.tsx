@@ -87,7 +87,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
           if (confirmAction === "trend") {
             if (trends.trend_status == "on") {
               await axios.put(
-                "https://api.kinecoin.co/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                "https://api.fluxcoin.tech/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                 {
                   trend_status: "off",
                   coin_pair_id: trends.id,
@@ -95,7 +95,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
               );
             } else if (trends.trend_status == "off") {
               await axios.put(
-                "https://api.kinecoin.co/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                "https://api.fluxcoin.tech/api/v1/update-trend-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                 {
                   trend_status: "on",
                   coin_pair_id: trends.id,
@@ -106,7 +106,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
           } else if (confirmAction === "manual") {
             if (trends.manual_status == "off") {
               await axios.put(
-                "https://api.kinecoin.co/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                "https://api.fluxcoin.tech/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                 {
                   manual_status: "on",
                   coin_pair_id: trends.id,
@@ -114,7 +114,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
               );
             } else if (trends.manual_status == "on") {
               await axios.put(
-                "https://api.kinecoin.co/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                "https://api.fluxcoin.tech/api/v1/update-manual-status?apikey=A20RqFwVktRxxRqrKBtmi6ud",
                 {
                   manual_status: "off",
                   coin_pair_id: trends.id,
