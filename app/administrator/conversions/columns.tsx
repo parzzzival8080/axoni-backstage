@@ -54,7 +54,7 @@ export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
           const token = localStorage.getItem("auth_token");
 
           await axios.put(
-            "https://api.fluxcoin.tech/api/v1/update-order?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+            "https://api.fluxcoin.tech/api/v1/update-order?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
             { order_id: id, status },
             {
               headers: {

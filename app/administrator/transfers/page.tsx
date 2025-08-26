@@ -15,7 +15,7 @@ import { getColumns, Client } from "./columns"; // 👈 use getColumns for refet
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
-      "https://api.fluxcoin.tech/api/v1/transfers?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      "https://api.fluxcoin.tech/api/v1/transfers?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
     );
     if (!response.ok) throw new Error("Failed to fetch data");
     const data: Client[] = await response.json();

@@ -13,7 +13,7 @@ export default function DemoPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://api.fluxcoin.tech/api/v1/trends?apikey=A20RqFwVktRxxRqrKBtmi6ud");
+      const response = await fetch("https://api.fluxcoin.tech/api/v1/trends?apikey=5lPMMw7mIuyzQQDjlKJbe0dY");
       if (!response.ok) throw new Error("Failed to fetch data");
       const trends: Trend[] = await response.json();
       setData(trends);

@@ -13,7 +13,7 @@ import { DataForm } from "./form";
 const getData = async (): Promise<Verification[]> => {
   try {
     const response = await fetch(
-      "https://api.fluxcoin.tech/api/v1/otps?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+      "https://api.fluxcoin.tech/api/v1/otps?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
       // {
       // {
       //   headers: {

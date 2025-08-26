@@ -35,7 +35,7 @@ export function DataForm() {
     const [networks, setNetworks] = useState<{ network_id: string; symbol: string }[]>([]);
   
     useEffect(() => {
-        axios.get("https://api.fluxcoin.tech/api/v1/type-dropdown?apikey=A20RqFwVktRxxRqrKBtmi6ud")
+        axios.get("https://api.fluxcoin.tech/api/v1/type-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY")
           .then((res) => setNetworks(res.data));
       }, []);
   // 1. Define your form.
@@ -50,7 +50,7 @@ export function DataForm() {
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
    axios
-      .post("https://api.fluxcoin.tech/api/v1/wallet-addresses?apikey=A20RqFwVktRxxRqrKBtmi6ud", values)
+      .post("https://api.fluxcoin.tech/api/v1/wallet-addresses?apikey=5lPMMw7mIuyzQQDjlKJbe0dY", values)
       .then((res) => {
         console.log(res.data.message)
         toast("Prompt", {

@@ -16,7 +16,7 @@ import { getColumns } from "./columns"; // 👈 changed from `columns` to `getCo
 const getData = async (): Promise<Client[]> => {
   try {
     const response = await fetch(
-      "https://api.fluxcoin.tech/api/v1/orders?apikey=A20RqFwVktRxxRqrKBtmi6ud"
+      "https://api.fluxcoin.tech/api/v1/orders?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
     );
     if (!response.ok) throw new Error("Failed to fetch data");
     const data: Client[] = await response.json();

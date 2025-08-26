@@ -110,7 +110,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.fluxcoin.tech/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          "https://api.fluxcoin.tech/api/v1/open-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           {
                             future_id: client.future_no,
                             status: "open_position",
@@ -125,7 +125,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.fluxcoin.tech/api/v1/open-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          "https://api.fluxcoin.tech/api/v1/open-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           { future_id: client.future_no, status: "declined" },
                           "Open Position Declined",
                           "Failed to decline open position."
@@ -142,7 +142,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.fluxcoin.tech/api/v1/close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          "https://api.fluxcoin.tech/api/v1/close-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           { future_id: client.future_no, status: "decline" },
                           "Position Closed",
                           "Failed to close position."
@@ -154,7 +154,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.fluxcoin.tech/api/v1/allow-close-position?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+                          "https://api.fluxcoin.tech/api/v1/allow-close-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           { future_id: client.future_no, status: "yes" },
                           "Close Allowed",
                           "Failed to allow close."

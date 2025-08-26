@@ -26,7 +26,7 @@ export default function DemoPage() {
   const getData = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("https://api.fluxcoin.tech/api/v1/futures?apikey=A20RqFwVktRxxRqrKBtmi6ud");
+      const res = await fetch("https://api.fluxcoin.tech/api/v1/futures?apikey=5lPMMw7mIuyzQQDjlKJbe0dY");
       const result = await res.json();
       setData(result);
     } catch (err) {

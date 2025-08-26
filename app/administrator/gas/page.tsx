@@ -23,7 +23,7 @@ export default function DemoPage() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://api.fluxcoin.tech/api/v1/transaction-records?apikey=A20RqFwVktRxxRqrKBtmi6ud&transaction_type=gas"
+        "https://api.fluxcoin.tech/api/v1/transaction-records?apikey=5lPMMw7mIuyzQQDjlKJbe0dY&transaction_type=gas"
       );
       const result: Client[] = await response.json();
       setData(result);

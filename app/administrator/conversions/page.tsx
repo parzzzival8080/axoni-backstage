@@ -18,7 +18,7 @@ const getData = async (): Promise<Client[]> => {
 
   try {
     const response = await fetch(
-      "https://api.fluxcoin.tech/api/v1/fetch-conversions?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+      "https://api.fluxcoin.tech/api/v1/fetch-conversions?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
       {
         headers: {
           Authorization: `Bearer ${token}`,

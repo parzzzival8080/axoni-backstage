@@ -48,7 +48,7 @@ export function DataForm({ trend }: { trend: Trend }) {
     console.log(token)
     axios
       .put(
-        "https://api.fluxcoin.tech/api/v1/set-trend?apikey=A20RqFwVktRxxRqrKBtmi6ud",
+        "https://api.fluxcoin.tech/api/v1/set-trend?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         values,
         {
           headers: {
