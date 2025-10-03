@@ -34,7 +34,7 @@ export const columns: ColumnDef<Wallet>[] = [
       async function handleDelete() {
         try {
           await axios.delete(
-            `https://api.fluxcoin.tech/api/v1/remove-wallet?apikey=5lPMMw7mIuyzQQDjlKJbe0dY&wallet_id=` + wallet.wallet_id,
+            `https://api.coinchi.co/api/v1/remove-wallet?apikey=5lPMMw7mIuyzQQDjlKJbe0dY&wallet_id=` + wallet.wallet_id,
           );
           toast.success(`Address ${wallet.address} deleted successfully.`);
         } catch (error) {

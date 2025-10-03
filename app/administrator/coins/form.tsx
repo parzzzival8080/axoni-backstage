@@ -41,7 +41,7 @@ export function DataForm({ coin }: { coin: Coin }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
       .post(
-        "https://api.fluxcoin.tech/api/v1/coins?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.coinchi.co/api/v1/coins?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         values
       )
       .then((res) => {

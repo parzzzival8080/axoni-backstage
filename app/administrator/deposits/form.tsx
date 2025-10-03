@@ -49,17 +49,17 @@ export function DataForm({ onSuccess }: DataFormProps) {
   useEffect(() => {
     axios
       .get(
-        "https://api.fluxcoin.tech/api/v1/user-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
+        "https://api.coinchi.co/api/v1/user-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
       )
       .then((res) => setUsers(res.data));
     axios
       .get(
-        "https://api.fluxcoin.tech/api/v1/coin-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
+        "https://api.coinchi.co/api/v1/coin-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
       )
       .then((res) => setCoins(res.data));
     axios
       .get(
-        "https://api.fluxcoin.tech/api/v1/network-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
+        "https://api.coinchi.co/api/v1/network-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
       )
       .then((res) => setNetworks(res.data));
   }, []);
@@ -80,7 +80,7 @@ export function DataForm({ onSuccess }: DataFormProps) {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     axios
       .post(
-        "https://api.fluxcoin.tech/api/v1/transactions?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.coinchi.co/api/v1/transactions?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         values
       )
       .then((res) => {

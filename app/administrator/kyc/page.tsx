@@ -20,7 +20,7 @@ export default function DemoPage() {
       try {
         const token = localStorage.getItem("auth_token");
 
-        const response = await fetch("https://api.fluxcoin.tech/api/v1/kyc?apikey=5lPMMw7mIuyzQQDjlKJbe0dY", {
+        const response = await fetch("https://api.coinchi.co/api/v1/kyc?apikey=5lPMMw7mIuyzQQDjlKJbe0dY", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -55,7 +55,7 @@ export const getColumns = (refetch: () => void): ColumnDef<Client>[] => [
           const token = localStorage.getItem("auth_token");
 
           await axios.put(
-            "https://api.fluxcoin.tech/api/v1/update-transaction?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+            "https://api.coinchi.co/api/v1/update-transaction?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
             { transaction_id: id, status },
             {
               headers: {

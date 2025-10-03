@@ -25,7 +25,7 @@ export default function AddAccumulationForm({
       const token = localStorage.getItem("auth_token");
 
       await axios.put(
-        "https://api.fluxcoin.tech/api/v1/update-accumulation?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.coinchi.co/api/v1/update-accumulation?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         {
           future_id: futureId,
           accumulation: amount,

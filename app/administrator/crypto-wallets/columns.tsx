@@ -54,7 +54,7 @@ function EditWallet({
       const token = localStorage.getItem("auth_token");
 
       const response = await axios.put(
-        `https://api.fluxcoin.tech/api/v1/update-wallet-address?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`,
+        `https://api.coinchi.co/api/v1/update-wallet-address?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`,
         {
           wallet_id: wallet.id,
           address: formData.address,

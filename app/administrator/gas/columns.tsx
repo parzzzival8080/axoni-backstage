@@ -53,7 +53,7 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
         async function approveStatus(id: string) {
           try {
             await axios.put(
-              "https://api.fluxcoin.tech/api/v1/update-transaction?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+              "https://api.coinchi.co/api/v1/update-transaction?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
               {
                 transaction_id: id,
                 status: "approved",
@@ -71,7 +71,7 @@ export function getColumns(refetch: () => void): ColumnDef<Client>[] {
         async function declineStatus(id: string) {
           try {
             await axios.put(
-              "https://api.fluxcoin.tech/api/v1/update-transaction?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+              "https://api.coinchi.co/api/v1/update-transaction?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
               {
                 transaction_id: id,
                 status: "declined",

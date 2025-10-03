@@ -53,7 +53,7 @@ export function DataForm({ trend }: { trend: Trend }) {
     const token = localStorage.getItem("auth_token");
     axios
       .put(
-        "https://api.fluxcoin.tech/api/v1/set-trend?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.coinchi.co/api/v1/set-trend?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         { coin_pair_id: trend.id, ...values },
         {
           headers: {

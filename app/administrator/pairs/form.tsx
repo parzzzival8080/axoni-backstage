@@ -44,7 +44,7 @@ export function DataForm({
   useEffect(() => {
     axios
       .get(
-        "https://api.fluxcoin.tech/api/v1/coin-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
+        "https://api.coinchi.co/api/v1/coin-dropdown?apikey=5lPMMw7mIuyzQQDjlKJbe0dY"
       )
       .then((res) => setCoins(res.data));
   }, []);
@@ -60,8 +60,8 @@ export function DataForm({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = pair.id
-        ? `https://api.fluxcoin.tech/api/v1/coin-pairs/${pair.id}?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`
-        : `https://api.fluxcoin.tech/api/v1/coin-pairs?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`;
+        ? `https://api.coinchi.co/api/v1/coin-pairs/${pair.id}?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`
+        : `https://api.coinchi.co/api/v1/coin-pairs?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`;
 
       const method = pair.id ? axios.put : axios.put;
 
