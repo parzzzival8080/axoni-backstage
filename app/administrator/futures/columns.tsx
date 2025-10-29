@@ -67,7 +67,7 @@ export const getColumns = (
       const value = row.getValue("created_at");
       const date = new Date(value as string);
       return date.toLocaleString(); // Formats to something like "7/9/2025, 4:35:00 PM"
-    },
+    },  
   },
   {
     id: "actions",
@@ -90,6 +90,18 @@ export const getColumns = (
           toast("Error", { description: errorMessage });
           console.error(errorMessage, err);
         }
+      };
+
+      const handleUpdateCycle = async () => {
+        const newCycle = prompt("Enter new cycle value:");
+        if (!newCycle) return;
+
+        await handleAction(
+          "https://api.coinchi.co/api/v1/update-cycle?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+          { future_id: client.future_no, cycle: newCycle },
+          "Cycle Updated Successfully",
+          "Failed to update cycle."
+        );
       };
 
       return (
@@ -151,6 +163,7 @@ export const getColumns = (
                     >
                       Close Position
                     </DropdownMenuItem>
+
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
@@ -164,7 +177,6 @@ export const getColumns = (
                       Allow Close
                     </DropdownMenuItem>
 
-                    {/* ✅ Show Add Accumulation only for open_position */}
                     <DropdownMenuItem
                       onClick={() => {
                         setSelectedFutureId(client.future_no);
@@ -172,6 +184,11 @@ export const getColumns = (
                       }}
                     >
                       Add Accumulation
+                    </DropdownMenuItem>
+
+                    {/* ✅ NEW: Update Cycle option */}
+                    <DropdownMenuItem onClick={handleUpdateCycle}>
+                      Update Cycle
                     </DropdownMenuItem>
                   </>
                 )}
