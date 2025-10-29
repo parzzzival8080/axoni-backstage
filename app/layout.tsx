@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fluxcoin Backstage",
-  description: "Fluxcoin Backstage",
+  title: "coinchi Backstage",
+  description: "coinchi Backstage",
 };
 
 export default async function RootLayout({
