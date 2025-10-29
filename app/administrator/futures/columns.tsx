@@ -104,6 +104,8 @@ export const getColumns = (
         );
       };
 
+      //
+
       return (
         <div>
           {(client.status === "pending" ||
