@@ -32,12 +32,12 @@ import { Input } from "@/components/ui/input";
 
 import * as React from "react";
 
-interface DataTableProps<TData extends { uid?: string; pair?: string }, TValue> {
+interface DataTableProps<TData extends { uid?: string; coin?: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData extends { uid?: string; pair?: string }, TValue>({
+export function DataTable<TData extends { uid?: string; coin?: string }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -63,10 +63,12 @@ export function DataTable<TData extends { uid?: string; pair?: string }, TValue>
     globalFilterFn: (row, _columnId, filterValue) => {
       const val = filterValue.toLowerCase();
       const uid = row.original.uid?.toLowerCase() ?? "";
-      const pair = row.original.pair?.toLowerCase() ?? "";
+      const pair = row.original.coin?.toLowerCase() ?? "";
       return uid.includes(val) || pair.includes(val);
     },
   });
+
+  //wowers
 
   return (
     <div>

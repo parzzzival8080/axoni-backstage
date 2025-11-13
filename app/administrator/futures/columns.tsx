@@ -104,8 +104,6 @@ export const getColumns = (
         );
       };
 
-      //
-
       return (
         <div>
           {(client.status === "pending" ||
@@ -150,6 +148,7 @@ export const getColumns = (
                     </DropdownMenuItem>
                   </>
                 )}
+                {/* New */}
 
                 {client.status === "open_position" && (
                   <>
