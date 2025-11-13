@@ -36,7 +36,7 @@ interface DataTableProps<TData extends { uid?: string; coin?: string }, TValue> 
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
-//new
+//neww
 export function DataTable<TData extends { uid?: string; coin?: string }, TValue>({
   columns,
   data,
