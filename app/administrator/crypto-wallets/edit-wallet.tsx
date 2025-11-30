@@ -51,7 +51,7 @@ function EditWallet({
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("token"); // ⬅️ Get token from storage or context
-    const url = `https://api.coinchi.co/api/v1/wallet-addresses/${wallet.id}?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`;
+    const url = `https://api.axoni.co/api/v1/wallet-addresses/${wallet.id}?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`;
 
     try {
       const res = await axios.put(

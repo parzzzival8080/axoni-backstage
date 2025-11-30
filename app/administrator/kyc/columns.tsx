@@ -79,7 +79,7 @@ export const columns: ColumnDef<Client>[] = [
         const token = localStorage.getItem("auth_token");
 
         await axios.put(
-          "https://api.coinchi.co/api/v1/update-kyc?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+          "https://api.axoni.co/api/v1/update-kyc?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
           {
             kyc_id: client.kyc_id,
             verification_status: status,

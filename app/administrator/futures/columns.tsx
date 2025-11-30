@@ -97,7 +97,7 @@ export const getColumns = (
         if (!newCycle) return;
 
         await handleAction(
-          "https://api.coinchi.co/api/v1/update-cycle?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+          "https://api.axoni.co/api/v1/update-cycle?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
           { future_id: client.future_no, cycle: newCycle },
           "Cycle Updated Successfully",
           "Failed to update cycle."
@@ -122,7 +122,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.coinchi.co/api/v1/open-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                          "https://api.axoni.co/api/v1/open-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           {
                             future_id: client.future_no,
                             status: "open_position",
@@ -137,7 +137,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.coinchi.co/api/v1/open-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                          "https://api.axoni.co/api/v1/open-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           { future_id: client.future_no, status: "declined" },
                           "Open Position Declined",
                           "Failed to decline open position."
@@ -155,7 +155,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.coinchi.co/api/v1/close-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                          "https://api.axoni.co/api/v1/close-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           { future_id: client.future_no, status: "decline" },
                           "Position Closed",
                           "Failed to close position."
@@ -168,7 +168,7 @@ export const getColumns = (
                     <DropdownMenuItem
                       onClick={() =>
                         handleAction(
-                          "https://api.coinchi.co/api/v1/allow-close-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                          "https://api.axoni.co/api/v1/allow-close-position?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                           { future_id: client.future_no, status: "yes" },
                           "Close Allowed",
                           "Failed to allow close."

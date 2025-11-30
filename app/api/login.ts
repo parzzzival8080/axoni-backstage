@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
   try {
-    const { data } = await axios.post("https://api.coinchi.co/api/v1/login", {
+    const { data } = await axios.post("https://api.axoni.co/api/v1/login", {
       email,
       password,
     });

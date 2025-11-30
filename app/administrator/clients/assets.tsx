@@ -21,7 +21,7 @@ interface EditClientProps {
 const fetchAssets = async (uid: string): Promise<Asset[]> => {
   try {
     const res = await fetch(
-      `https://api.coinchi.co/api/v1/user-assets/${uid}?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`
+      `https://api.axoni.co/api/v1/user-assets/${uid}?apikey=5lPMMw7mIuyzQQDjlKJbe0dY`
     );
     if (!res.ok) throw new Error("Failed to fetch assets");
     const data = await res.json();

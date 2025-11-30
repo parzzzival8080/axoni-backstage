@@ -87,7 +87,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
           if (confirmAction === "trend") {
             if (trends.trend_status == "on") {
               await axios.put(
-                "https://api.coinchi.co/api/v1/update-trend-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                "https://api.axoni.co/api/v1/update-trend-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                 {
                   trend_status: "off",
                   coin_pair_id: trends.id,
@@ -95,7 +95,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
               );
             } else if (trends.trend_status == "off") {
               await axios.put(
-                "https://api.coinchi.co/api/v1/update-trend-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                "https://api.axoni.co/api/v1/update-trend-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                 {
                   trend_status: "on",
                   coin_pair_id: trends.id,
@@ -106,7 +106,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
           } else if (confirmAction === "manual") {
             if (trends.manual_status == "off") {
               await axios.put(
-                "https://api.coinchi.co/api/v1/update-manual-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                "https://api.axoni.co/api/v1/update-manual-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                 {
                   manual_status: "on",
                   coin_pair_id: trends.id,
@@ -114,7 +114,7 @@ export const columns = (fetchData: () => void): ColumnDef<Trend>[] => [
               );
             } else if (trends.manual_status == "on") {
               await axios.put(
-                "https://api.coinchi.co/api/v1/update-manual-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+                "https://api.axoni.co/api/v1/update-manual-status?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
                 {
                   manual_status: "off",
                   coin_pair_id: trends.id,

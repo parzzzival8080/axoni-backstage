@@ -13,7 +13,7 @@ export default function DemoPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://api.coinchi.co/api/v1/trends?apikey=5lPMMw7mIuyzQQDjlKJbe0dY");
+      const response = await fetch("https://api.axoni.co/api/v1/trends?apikey=5lPMMw7mIuyzQQDjlKJbe0dY");
       if (!response.ok) throw new Error("Failed to fetch data");
       const trends: Trend[] = await response.json();
       setData(trends);

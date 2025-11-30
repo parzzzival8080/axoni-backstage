@@ -86,7 +86,7 @@ function ClientActions({ client }: { client: Client }) {
     try {
       const token = localStorage.getItem("auth_token");
       await axios.put(
-        "https://api.coinchi.co/api/v1/freeze-account?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.axoni.co/api/v1/freeze-account?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         {
           uid: client.uid,
           action: isFrozen ? "unfreeze" : "freeze",
@@ -115,7 +115,7 @@ function ClientActions({ client }: { client: Client }) {
     try {
       const token = localStorage.getItem("auth_token");
       const res = await axios.put(
-        "https://api.coinchi.co/api/v1/update-level?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.axoni.co/api/v1/update-level?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         {
           uid: client.uid,
           level: selectedLevel,

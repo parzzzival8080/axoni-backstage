@@ -12,7 +12,7 @@ import { DataForm } from "./form";
 
 const getData = async (): Promise<Coin[]> => {
     try {
-      const response = await fetch('https://api.coinchi.co/api/v1/coins?apikey=5lPMMw7mIuyzQQDjlKJbe0dY'); // Replace with your real API URL
+      const response = await fetch('https://api.axoni.co/api/v1/coins?apikey=5lPMMw7mIuyzQQDjlKJbe0dY'); // Replace with your real API URL
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }

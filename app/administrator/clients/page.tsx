@@ -21,7 +21,7 @@ export default function DemoPage() {
       const token = localStorage.getItem("auth_token");
       try {
         const response = await fetch(
-          "https://api.coinchi.co/api/v1/fetch-user-details?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+          "https://api.axoni.co/api/v1/fetch-user-details?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
           {
             headers: {
               Authorization: `Bearer ${token}`,

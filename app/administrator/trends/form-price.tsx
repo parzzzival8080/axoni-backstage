@@ -48,7 +48,7 @@ export function DataForm({ trend }: { trend: Trend }) {
     console.log(token)
     axios
       .put(
-        "https://api.coinchi.co/api/v1/set-trend?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
+        "https://api.axoni.co/api/v1/set-trend?apikey=5lPMMw7mIuyzQQDjlKJbe0dY",
         values,
         {
           headers: {
